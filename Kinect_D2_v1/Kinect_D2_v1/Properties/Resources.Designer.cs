@@ -67,5 +67,12 @@ namespace Kinect_D2_v1.Properties
                 resourceCulture = value;
             }
         }
+
+        internal static string NoKinectReady{
+            get{
+                return ResourceManager.GetString("NoKinectReady", resourceCulture);
+            }
+        }
+    
     }
 }

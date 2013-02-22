@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KinectDatabaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="KinectDatabaseEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="JointValues" EntityType="KinectDatabaseModel.JointValue" />
+  </EntityContainer>
+  <EntityType Name="JointValue">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" />
+    <Property Name="xValue" Type="Double" />
+    <Property Name="yValue" Type="Double" />
+    <Property Name="zValue" Type="Double" />
+  </EntityType>
+</Schema>

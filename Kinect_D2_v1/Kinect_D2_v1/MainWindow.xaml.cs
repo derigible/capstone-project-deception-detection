@@ -10,6 +10,9 @@ namespace Kinect_D2_v1
     using System.Windows;
     using System.Windows.Media;
     using Microsoft.Kinect;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -81,12 +84,30 @@ namespace Kinect_D2_v1
         /// </summary>
         private DrawingImage imageSource;
 
+        Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter kinectDatabaseDataSet1JointValuesTableAdapter;
+        DbSet<JointValue> vals;
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
+            showColumnChart();
+        }
+
+        private void showColumnChart()
+        {
+            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
+            valueList.Add(new KeyValuePair<string, int>("Developer", 60));
+            valueList.Add(new KeyValuePair<string, int>("Misc", 20));
+            valueList.Add(new KeyValuePair<string, int>("Tester", 50));
+            valueList.Add(new KeyValuePair<string, int>("QA", 30));
+            valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
+
+            //Setting data for column chart
+            columnChart.DataContext = valueList;
+
         }
 
         /// <summary>
@@ -181,6 +202,17 @@ namespace Kinect_D2_v1
             {
                 this.statusBarText.Text = Properties.Resources.NoKinectReady;
             }
+
+            //Create an entity version
+            vals = new Kinect_D2_v1.KinectDatabaseEntities1().Set<JointValue>();
+            //Create the table adapter version
+            Kinect_D2_v1.KinectDatabaseDataSet1 kinectDatabaseDataSet1 = ((Kinect_D2_v1.KinectDatabaseDataSet1)(this.FindResource("kinectDatabaseDataSet1")));
+            
+            // Load data into the table JointValues. You can modify this code as needed.
+            kinectDatabaseDataSet1JointValuesTableAdapter = new Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter();
+            kinectDatabaseDataSet1JointValuesTableAdapter.Fill(kinectDatabaseDataSet1.JointValues);
+            System.Windows.Data.CollectionViewSource jointValuesViewSource1 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("jointValuesViewSource1")));
+            jointValuesViewSource1.View.MoveCurrentToFirst();
         }
 
         /// <summary>
@@ -282,8 +314,6 @@ namespace Kinect_D2_v1
             this.DrawBone(skeleton, drawingContext, JointType.KneeRight, JointType.AnkleRight);
             this.DrawBone(skeleton, drawingContext, JointType.AnkleRight, JointType.FootRight);
 
-            StreamWriter sw = new StreamWriter(@"./test.txt");
-
             // Render Joints
             foreach (Joint joint in skeleton.Joints)
             {
@@ -302,10 +332,11 @@ namespace Kinect_D2_v1
                 {
                     drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), JointThickness, JointThickness);
                 }
-                sw.WriteLine(joint.Position.X + "\n");
+                vals.Add(new JointValue(joint.GetHashCode(), joint.Position.X,
+                   joint.Position.Y, joint.Position.Z));
+                kinectDatabaseDataSet1JointValuesTableAdapter.Insert(joint.GetHashCode(), joint.Position.X,
+                   joint.Position.Y, joint.Position.Z);
             }
-
-            sw.Close();
 
         }
 

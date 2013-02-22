@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="KinectDatabaseModelStoreContainer" CdmEntityContainer="KinectDatabaseEntities">
+    <EntitySetMapping Name="JointValues">
+      <EntityTypeMapping TypeName="KinectDatabaseModel.JointValue">
+        <MappingFragment StoreEntitySet="JointValues">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="xValue" ColumnName="xValue" />
+          <ScalarProperty Name="yValue" ColumnName="yValue" />
+          <ScalarProperty Name="zValue" ColumnName="zValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

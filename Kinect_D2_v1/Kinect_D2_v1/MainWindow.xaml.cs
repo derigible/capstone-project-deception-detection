@@ -10,9 +10,15 @@ namespace Kinect_D2_v1
     using System.Windows;
     using System.Windows.Media;
     using Microsoft.Kinect;
+    using Microsoft.Samples.Kinect.WpfViewers;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data;
+    using Microsoft.Kinect.Toolkit;
+    using System.Windows.Data;
+    using System.Runtime.InteropServices;
+    using System;
+    using System.ComponentModel;
     
 
     /// <summary>
@@ -20,6 +26,7 @@ namespace Kinect_D2_v1
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region variable declarations
         /// <summary>
         /// Width of output drawing
         /// </summary>
@@ -71,11 +78,6 @@ namespace Kinect_D2_v1
         private readonly Pen inferredBonePen = new Pen(Brushes.Gray, 1);
 
         /// <summary>
-        /// Active Kinect sensor
-        /// </summary>
-        private KinectSensor sensor;
-
-        /// <summary>
         /// Drawing group for skeleton rendering output
         /// </summary>
         private DrawingGroup drawingGroup;
@@ -85,37 +87,139 @@ namespace Kinect_D2_v1
         /// </summary>
         private DrawingImage imageSource;
 
+        /// <summary>
+        /// Skeleton array to hold sensor skeletons
+        /// </summary>
+        private Skeleton[] skeletons;
+
+        private readonly KinectSensorChooser sensorChooser = new KinectSensorChooser();
+
         //this is needed in order to clear out and stop the sensor
         //BackgroundWorker bw = new BackgroundWorker();
 
         //Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter kinectDatabaseDataSet1JointValuesTableAdapter;
         //DbSet<JointValue> vals;
         DbSet<RawData> raw;
-        
+
+        public static readonly DependencyProperty KinectSensorManagerProperty =
+            DependencyProperty.Register(
+                "KinectSensorManager",
+                typeof(KinectSensorManager),
+                typeof(MainWindow),
+                new PropertyMetadata(null));
+        #endregion variable declarations
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
         public MainWindow()
         {
+            this.KinectSensorManager = new KinectSensorManager();
+            this.KinectSensorManager.KinectSensorChanged += this.KinectSensorChanged;
+            this.DataContext = this.KinectSensorManager;
+
             InitializeComponent();
             showColumnChart();
-        }
 
-        private void showColumnChart()
+            this.SensorChooserUI.KinectSensorChooser = sensorChooser;
+            }
+
+        #region kinect management
+        public KinectSensorManager KinectSensorManager
         {
-            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
-            valueList.Add(new KeyValuePair<string, int>("Developer", 60));
-            valueList.Add(new KeyValuePair<string, int>("Misc", 20));
-            valueList.Add(new KeyValuePair<string, int>("Tester", 50));
-            valueList.Add(new KeyValuePair<string, int>("QA", 30));
-            valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
+            get { return (KinectSensorManager)GetValue(KinectSensorManagerProperty); }
+            set { SetValue(KinectSensorManagerProperty, value); }
+        }
 
-            //Setting data for column chart
-            columnChart.DataContext = valueList;
+        private void KinectSensorChanged(object sender, KinectSensorManagerEventArgs<KinectSensor> args)
+        {
+            if (null != args.OldValue)
+            {
+                this.UninitializeKinectServices(args.OldValue);
+            }
+
+            if (null != args.NewValue)
+            {
+                this.InitializeKinectServices(this.KinectSensorManager, args.NewValue);
+            }
+        }
+
+        // Kinect enabled apps should customize which Kinect services it initializes here.
+        private void InitializeKinectServices(KinectSensorManager kinectSensorManager, KinectSensor sensor)
+        {
+            // Application should enable all streams first.
+            kinectSensorManager.ColorFormat = ColorImageFormat.RgbResolution640x480Fps30;
+            kinectSensorManager.ColorStreamEnabled = true;
+
+            sensor.SkeletonFrameReady += this.SkeletonsReady;
+            kinectSensorManager.TransformSmoothParameters = new TransformSmoothParameters
+            {
+                Smoothing = 0.5f,
+                Correction = 0.5f,
+                Prediction = 0.5f,
+                JitterRadius = 0.05f,
+                MaxDeviationRadius = 0.04f
+            };
+            kinectSensorManager.SkeletonStreamEnabled = true;
+            kinectSensorManager.KinectSensorEnabled = true;
 
         }
 
+        // Kinect enabled apps should uninitialize all Kinect services that were initialized in InitializeKinectServices() here.
+        private void UninitializeKinectServices(KinectSensor sensor)
+        {
+            sensor.SkeletonFrameReady -= this.SkeletonsReady;
+        }
+
+
+        private void SkeletonsReady(object sender, SkeletonFrameReadyEventArgs e)
+        {
+       
+            using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
+            {
+                if (skeletonFrame != null)
+                {
+
+                    if ((skeletons == null) || (skeletons.Length != skeletonFrame.SkeletonArrayLength))
+                    {
+                        skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
+                    }
+
+                    skeletonFrame.CopySkeletonDataTo(skeletons);
+
+                    using (DrawingContext dc = this.drawingGroup.Open())
+                    {
+                        // Draw a transparent background to set the render size
+                        dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
+                        foreach (Skeleton skeleton in skeletons)
+                        {                      
+                            RenderClippedEdges(skeleton, dc);
+
+                            if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
+                            {
+                                this.DrawBonesAndJoints(skeleton, dc);
+                                this.SaveSkeletonToRaw(skeletons);
+
+                            }
+                            else if (skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
+                            {
+                                dc.DrawEllipse(
+                                this.centerPointBrush,
+                                null,
+                                this.SkeletonPointToScreen(skeleton.Position),
+                                BodyCenterThickness,
+                                BodyCenterThickness);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        #endregion kinect management
+
+        #region render window
         /// <summary>
         /// Draws indicators to show which edges are clipping skeleton data
         /// </summary>
@@ -175,7 +279,7 @@ namespace Kinect_D2_v1
 
             //Create the table adapter version
             //Kinect_D2_v1.KinectDatabaseDataSet1 kinectDatabaseDataSet1 = ((Kinect_D2_v1.KinectDatabaseDataSet1)(this.FindResource("kinectDatabaseDataSet1")));
-            
+
             // Load data into the table JointValues. You can modify this code as needed.
             //kinectDatabaseDataSet1JointValuesTableAdapter = new Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter();
             //kinectDatabaseDataSet1JointValuesTableAdapter.Fill(kinectDatabaseDataSet1.JointValues);
@@ -183,18 +287,29 @@ namespace Kinect_D2_v1
             //jointValuesViewSource1.View.MoveCurrentToFirst();
         }
 
+        // Since the timer resolution defaults to about 10ms precisely, we need to
+        // increase the resolution to get framerates above between 50fps with any
+        // consistency.
+        [DllImport("Winmm.dll", EntryPoint = "timeBeginPeriod")]
+        private static extern int TimeBeginPeriod(uint period);
+
         /// <summary>
         /// Execute shutdown tasks
         /// </summary>
         /// <param name="sender">object sending the event</param>
         /// <param name="e">event arguments</param>
-        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void WindowClosing(object sender, CancelEventArgs e)
         {
-            if (null != this.sensor)
-            {
-                this.sensor.Stop();
-            }
+            sensorChooser.Stop();
         }
+
+        private void WindowClosed(object sender, EventArgs e)
+        {
+            this.KinectSensorManager.KinectSensor = null;
+        }
+        #endregion render window
+
+        #region render Skeleton
 
         /// <summary>
         /// Event handler for Kinect sensor's SkeletonFrameReady event
@@ -223,43 +338,13 @@ namespace Kinect_D2_v1
                 {
                     foreach (Skeleton skel in skeletons)
                     {
-                        RenderClippedEdges(skel, dc);
-
-                        if (skel.TrackingState == SkeletonTrackingState.Tracked)
-                        {
-                            this.DrawBonesAndJoints(skel, dc);
-                            SaveSkeletonToRaw(skeletons);
-                            
-                        }
-                        else if (skel.TrackingState == SkeletonTrackingState.PositionOnly)
-                        {
-                            dc.DrawEllipse(
-                            this.centerPointBrush,
-                            null,
-                            this.SkeletonPointToScreen(skel.Position),
-                            BodyCenterThickness,
-                            BodyCenterThickness);
-                        }
+                        
                     }
                 }
 
                 // prevent drawing outside of our render area
                 this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight));
             }
-        }
-
-        private void SaveSkeletonToRaw(Skeleton[] skeletons)
-        {
-            foreach (Skeleton skel in skeletons)
-            {
-                if (skel.TrackingState == SkeletonTrackingState.Tracked)
-                {
-                    RawData tmp =new RawData();
-                    tmp.SetJoints(skel.Joints);
-                    raw.Add(tmp);
-                }
-            }
-
         }
 
         /// <summary>
@@ -329,7 +414,7 @@ namespace Kinect_D2_v1
         {
             // Convert point to depth space.  
             // We are not using depth directly, but we do want the points in our 640x480 output resolution.
-            DepthImagePoint depthPoint = this.sensor.CoordinateMapper.MapSkeletonPointToDepthPoint(skelpoint, DepthImageFormat.Resolution640x480Fps30);
+            DepthImagePoint depthPoint = this.sensorChooser.Kinect.CoordinateMapper.MapSkeletonPointToDepthPoint(skelpoint, DepthImageFormat.Resolution640x480Fps30);
             return new Point(depthPoint.X, depthPoint.Y);
         }
 
@@ -376,48 +461,52 @@ namespace Kinect_D2_v1
         /// <param name="e">event arguments</param>
         private void CheckBoxSeatedModeChanged(object sender, RoutedEventArgs e)
         {
-            if (null != this.sensor)
+            if (null != this.sensorChooser.Kinect)
             {
                 if (this.checkBoxSeatedMode.IsChecked.GetValueOrDefault())
                 {
-                    this.sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+                    this.sensorChooser.Kinect.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
                 }
                 else
                 {
-                    this.sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Default;
+                    this.sensorChooser.Kinect.SkeletonStream.TrackingMode = SkeletonTrackingMode.Default;
                 }
             }
         }
+        #endregion render Skeleton
 
-        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        #region data transformation
+
+        private void SaveSkeletonToRaw(Skeleton[] skeletons)
         {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            sensor.SkeletonStream.Disable();
-            //sensor.SkeletonStream.Disable();
-            //sensor
-            MessageBox.Show("Stream Stopped");
-
-            //stop the recording
-            if (null != this.sensor)
+            foreach (Skeleton skel in skeletons)
             {
-                this.sensor.Stop();
+                if (skel.TrackingState == SkeletonTrackingState.Tracked)
+                {
+                    RawData tmp = new RawData();
+                    tmp.SetJoints(skel.Joints);
+                    raw.Add(tmp);
+                }
             }
-            MessageBox.Show("Sensor Stopped");
 
-            KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
-            foreach(RawData rawdata in raw.Local){
-                ent.RawDatas.Add(rawdata);                
-            }
-            //ent.RawDatas = raw;
-            ent.SaveChanges();
-            MessageBox.Show("Records saved to database");
-
-           
         }
+
+        private void showColumnChart()
+        {
+            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
+            valueList.Add(new KeyValuePair<string, int>("Developer", 60));
+            valueList.Add(new KeyValuePair<string, int>("Misc", 20));
+            valueList.Add(new KeyValuePair<string, int>("Tester", 50));
+            valueList.Add(new KeyValuePair<string, int>("QA", 30));
+            valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
+
+            //Setting data for column chart
+            columnChart.DataContext = valueList;
+
+        }
+        #endregion data transformation
+
+        #region button actions
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
@@ -431,39 +520,14 @@ namespace Kinect_D2_v1
 
         private void Button_StartRecording(object sender, RoutedEventArgs e)
         {
-            // Look through all sensors and start the first connected one.
-            // This requires that a Kinect is connected at the time of app startup.
-            // To make your app robust against plug/unplug, 
-            // it is recommended to use KinectSensorChooser provided in Microsoft.Kinect.Toolkit
-            foreach (var potentialSensor in KinectSensor.KinectSensors)
-            {
-                if (potentialSensor.Status == KinectStatus.Connected)
-                {
-                    this.sensor = potentialSensor;
-                    break;
-                }
-            }
+            sensorChooser.Start();
 
-            if (null != this.sensor)
-            {
-                // Turn on the skeleton stream to receive skeleton frames
-                this.sensor.SkeletonStream.Enable();
+            // Bind the KinectSensor from the sensorChooser to the KinectSensor on the KinectSensorManager
+            var kinectSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
+            BindingOperations.SetBinding(this.KinectSensorManager, KinectSensorManager.KinectSensorProperty, kinectSensorBinding);
 
-                // Add an event handler to be called whenever there is new color frame data
-                this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
-
-                // Start the sensor!
-                try
-                {
-                    this.sensor.Start();
-                }
-                catch (IOException)
-                {
-                    this.sensor = null;
-                }
-            }
-
-            if (null == this.sensor)
+            
+            if (null == sensorChooser.Kinect)
             {
                 this.statusBarText.Text = Properties.Resources.NoKinectReady;
             }
@@ -473,5 +537,31 @@ namespace Kinect_D2_v1
             raw = new Kinect_D2_v1.KinectDatabaseEntities1().Set<RawData>();
 
         }
+
+        private void Button_SaveToDatabase(object sender, RoutedEventArgs e)
+        {
+            if (null != this.sensorChooser.Kinect)
+            {
+                //stop the recording
+
+                this.sensorChooser.Stop();
+
+                MessageBox.Show("Sensor Stopped");
+
+                KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
+                foreach (RawData rawdata in raw.Local)
+                {
+                    ent.RawDatas.Add(rawdata);
+                }
+                //ent.RawDatas = raw;
+                ent.SaveChanges();
+                MessageBox.Show("Records saved to database");
+            }
+            else
+            {
+                MessageBox.Show("No Kinect Detected.");
+            }
+        }
+        #endregion button actions
     }
 }

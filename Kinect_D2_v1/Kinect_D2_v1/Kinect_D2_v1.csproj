@@ -83,19 +83,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RawData.constructors.cs" />
+    <Compile Include="RawData.cs">
+      <DependentUpon>KinectEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="JointValue.constructors.cs" />
     <Compile Include="JointValue.cs">
       <DependentUpon>KinectEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="KinectDatabaseDataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KinectDatabaseDataSet1.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="KinectDatabaseDataSet11.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KinectDatabaseDataSet11.xsd</DependentUpon>
     </Compile>
     <Compile Include="KinectEntities.Context.cs">
       <AutoGen>True</AutoGen>
@@ -144,28 +138,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="KinectDatabaseDataSet1.xsc">
-      <DependentUpon>KinectDatabaseDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="KinectDatabaseDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>KinectDatabaseDataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="KinectDatabaseDataSet1.xss">
-      <DependentUpon>KinectDatabaseDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="KinectDatabaseDataSet11.xsc">
-      <DependentUpon>KinectDatabaseDataSet11.xsd</DependentUpon>
-    </None>
-    <None Include="KinectDatabaseDataSet11.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>KinectDatabaseDataSet11.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="KinectDatabaseDataSet11.xss">
-      <DependentUpon>KinectDatabaseDataSet11.xsd</DependentUpon>
-    </None>
     <EntityDeploy Include="KinectEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>KinectEntities.Designer.cs</LastGenOutput>
@@ -229,9 +201,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="KinectDatabase.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="KinectDatabase.sdf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

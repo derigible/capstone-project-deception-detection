@@ -8,6 +8,10 @@ namespace Kinect_D2_v1
 {
     public partial class JointValue
     {
+        public JointValue()
+        {
+
+        }
         public JointValue(long id, float xVal, float yVal, float zVal)
         {
             this.id = id;

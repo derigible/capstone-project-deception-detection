@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="KinectDatabaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityContainer Name="KinectDatabaseEntities" p1:LazyLoadingEnabled="true">
+  <EntityContainer Name="KinectDatabaseEntities1" p1:LazyLoadingEnabled="true">
     <EntitySet Name="JointValues" EntityType="KinectDatabaseModel.JointValue" />
+    <EntitySet Name="RawDatas" EntityType="KinectDatabaseModel.RawData" />
   </EntityContainer>
   <EntityType Name="JointValue">
     <Key>
@@ -11,5 +12,72 @@
     <Property Name="xValue" Type="Double" />
     <Property Name="yValue" Type="Double" />
     <Property Name="zValue" Type="Double" />
+  </EntityType>
+  <EntityType Name="RawData">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="timestamp" Precision="3" />
+    <Property Type="Double" Name="Head_X" />
+    <Property Type="Double" Name="Head_Y" />
+    <Property Type="Double" Name="Head_Z" />
+    <Property Type="Double" Name="ShoulderCenter_X" />
+    <Property Type="Double" Name="ShoulderCenter_Y" />
+    <Property Type="Double" Name="ShoulderCenter_Z" />
+    <Property Type="Double" Name="ShoulderLeft_X" />
+    <Property Type="Double" Name="ShoulderLeft_Y" />
+    <Property Type="Double" Name="ShoulderLeft_Z" />
+    <Property Type="Double" Name="ShoulderRight_X" />
+    <Property Type="Double" Name="ShoulderRight_Y" />
+    <Property Type="Double" Name="ShoulderRight_Z" />
+    <Property Type="Double" Name="Spine_X" />
+    <Property Type="Double" Name="Spine_Y" />
+    <Property Type="Double" Name="Spine_Z" />
+    <Property Type="Double" Name="HipCenter_X" />
+    <Property Type="Double" Name="HipCenter_Y" />
+    <Property Type="Double" Name="HipCenter_Z" />
+    <Property Type="Double" Name="HipLeft_X" />
+    <Property Type="Double" Name="HipLeft_Y" />
+    <Property Type="Double" Name="HipLeft_Z" />
+    <Property Type="Double" Name="HipRight_X" />
+    <Property Type="Double" Name="HipRight_Y" />
+    <Property Type="Double" Name="HipRight_Z" />
+    <Property Type="Double" Name="ElbowLeft_X" />
+    <Property Type="Double" Name="ElbowLeft_Y" />
+    <Property Type="Double" Name="ElbowLeft_Z" />
+    <Property Type="Double" Name="WristLeft_X" />
+    <Property Type="Double" Name="WristLeft_Y" />
+    <Property Type="Double" Name="WristLeft_Z" />
+    <Property Type="Double" Name="HandLeft_X" />
+    <Property Type="Double" Name="HandLeft_Y" />
+    <Property Type="Double" Name="HandLeft_Z" />
+    <Property Type="Double" Name="ElbowRight_X" />
+    <Property Type="Double" Name="ElbowRight_Y" />
+    <Property Type="Double" Name="ElbowRight_Z" />
+    <Property Type="Double" Name="WristRight_X" />
+    <Property Type="Double" Name="WristRight_Y" />
+    <Property Type="Double" Name="WristRight_Z" />
+    <Property Type="Double" Name="HandRight_X" />
+    <Property Type="Double" Name="HandRight_Y" />
+    <Property Type="Double" Name="HandRight_Z" />
+    <Property Type="Double" Name="KneeLeft_X" />
+    <Property Type="Double" Name="KneeLeft_Y" />
+    <Property Type="Double" Name="KneeLeft_Z" />
+    <Property Type="Double" Name="AnkleLeft_X" />
+    <Property Type="Double" Name="AnkleLeft_Y" />
+    <Property Type="Double" Name="AnkleLeft_Z" />
+    <Property Type="Double" Name="FootLeft_X" />
+    <Property Type="Double" Name="FootLeft_Y" />
+    <Property Type="Double" Name="FootLeft_Z" />
+    <Property Type="Double" Name="KneeRight_X" />
+    <Property Type="Double" Name="KneeRight_Y" />
+    <Property Type="Double" Name="KneeRight_Z" />
+    <Property Type="Double" Name="AnkleRight_X" />
+    <Property Type="Double" Name="AnkleRight_Y" />
+    <Property Type="Double" Name="AnkleRight_Z" />
+    <Property Type="Double" Name="FootRight_X" />
+    <Property Type="Double" Name="FootRight_Y" />
+    <Property Type="Double" Name="FootRight_Z" />
   </EntityType>
 </Schema>

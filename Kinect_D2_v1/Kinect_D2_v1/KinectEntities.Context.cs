@@ -26,5 +26,6 @@ namespace Kinect_D2_v1
         }
     
         public DbSet<JointValue> JointValues { get; set; }
+        public DbSet<RawData> RawDatas { get; set; }
     }
 }

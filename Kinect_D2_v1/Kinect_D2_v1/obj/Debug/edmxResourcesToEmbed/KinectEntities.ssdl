@@ -2,6 +2,7 @@
 <Schema Namespace="KinectDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="KinectDatabaseModelStoreContainer">
     <EntitySet Name="JointValues" EntityType="KinectDatabaseModel.Store.JointValues" store:Type="Tables" />
+    <EntitySet Name="RawData" EntityType="KinectDatabaseModel.Store.RawData" store:Type="Tables" />
   </EntityContainer>
   <EntityType Name="JointValues">
     <Key>
@@ -11,5 +12,72 @@
     <Property Name="xValue" Type="float" />
     <Property Name="yValue" Type="float" />
     <Property Name="zValue" Type="float" />
+  </EntityType>
+  <EntityType Name="RawData">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="timestamp" Type="datetime" />
+    <Property Name="Head_X" Type="float" />
+    <Property Name="Head_Y" Type="float" />
+    <Property Name="Head_Z" Type="float" />
+    <Property Name="ShoulderCenter_X" Type="float" />
+    <Property Name="ShoulderCenter_Y" Type="float" />
+    <Property Name="ShoulderCenter_Z" Type="float" />
+    <Property Name="ShoulderLeft_X" Type="float" />
+    <Property Name="ShoulderLeft_Y" Type="float" />
+    <Property Name="ShoulderLeft_Z" Type="float" />
+    <Property Name="ShoulderRight_X" Type="float" />
+    <Property Name="ShoulderRight_Y" Type="float" />
+    <Property Name="ShoulderRight_Z" Type="float" />
+    <Property Name="Spine_X" Type="float" />
+    <Property Name="Spine_Y" Type="float" />
+    <Property Name="Spine_Z" Type="float" />
+    <Property Name="HipCenter_X" Type="float" />
+    <Property Name="HipCenter_Y" Type="float" />
+    <Property Name="HipCenter_Z" Type="float" />
+    <Property Name="HipLeft_X" Type="float" />
+    <Property Name="HipLeft_Y" Type="float" />
+    <Property Name="HipLeft_Z" Type="float" />
+    <Property Name="HipRight_X" Type="float" />
+    <Property Name="HipRight_Y" Type="float" />
+    <Property Name="HipRight_Z" Type="float" />
+    <Property Name="ElbowLeft_X" Type="float" />
+    <Property Name="ElbowLeft_Y" Type="float" />
+    <Property Name="ElbowLeft_Z" Type="float" />
+    <Property Name="WristLeft_X" Type="float" />
+    <Property Name="WristLeft_Y" Type="float" />
+    <Property Name="WristLeft_Z" Type="float" />
+    <Property Name="HandLeft_X" Type="float" />
+    <Property Name="HandLeft_Y" Type="float" />
+    <Property Name="HandLeft_Z" Type="float" />
+    <Property Name="ElbowRight_X" Type="float" />
+    <Property Name="ElbowRight_Y" Type="float" />
+    <Property Name="ElbowRight_Z" Type="float" />
+    <Property Name="WristRight_X" Type="float" />
+    <Property Name="WristRight_Y" Type="float" />
+    <Property Name="WristRight_Z" Type="float" />
+    <Property Name="HandRight_X" Type="float" />
+    <Property Name="HandRight_Y" Type="float" />
+    <Property Name="HandRight_Z" Type="float" />
+    <Property Name="KneeLeft_X" Type="float" />
+    <Property Name="KneeLeft_Y" Type="float" />
+    <Property Name="KneeLeft_Z" Type="float" />
+    <Property Name="AnkleLeft_X" Type="float" />
+    <Property Name="AnkleLeft_Y" Type="float" />
+    <Property Name="AnkleLeft_Z" Type="float" />
+    <Property Name="FootLeft_X" Type="float" />
+    <Property Name="FootLeft_Y" Type="float" />
+    <Property Name="FootLeft_Z" Type="float" />
+    <Property Name="KneeRight_X" Type="float" />
+    <Property Name="KneeRight_Y" Type="float" />
+    <Property Name="KneeRight_Z" Type="float" />
+    <Property Name="AnkleRight_X" Type="float" />
+    <Property Name="AnkleRight_Y" Type="float" />
+    <Property Name="AnkleRight_Z" Type="float" />
+    <Property Name="FootRight_X" Type="float" />
+    <Property Name="FootRight_Y" Type="float" />
+    <Property Name="FootRight_Z" Type="float" />
   </EntityType>
 </Schema>

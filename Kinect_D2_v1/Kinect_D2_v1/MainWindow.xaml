@@ -41,25 +41,29 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <local:KinectDatabaseDataSet x:Key="kinectDatabaseDataSet"/>
-        <CollectionViewSource x:Key="jointValuesViewSource" Source="{Binding JointValues, Source={StaticResource kinectDatabaseDataSet}}"/>
-        <local:KinectDatabaseDataSet1 x:Key="kinectDatabaseDataSet1"/>
-        <CollectionViewSource x:Key="jointValuesViewSource1" Source="{Binding JointValues, Source={StaticResource kinectDatabaseDataSet1}}"/>
+        
+        
+        
+        
     </Window.Resources>
     <TabControl Margin="3,3,12,12">
         <TabItem Header="Kinect Video">
             <Grid x:Name="layoutGrid" Margin="0,0,2,-4" Height="765" VerticalAlignment="Top">
-                <DockPanel LastChildFill="False" Margin="0,0,10,698">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="97*"/>
+                    <ColumnDefinition Width="968*"/>
+                </Grid.ColumnDefinitions>
+                <DockPanel LastChildFill="False" Margin="0,0,10,698" Grid.ColumnSpan="2">
                     <Grid Height="60" VerticalAlignment="Top" Margin="10,7,10,0" DockPanel.Dock="Top">
                         <Image HorizontalAlignment="Left" Height="45" Margin="10,0,0,0" VerticalAlignment="Top" Width="93" Source="Images/Logo.png"/>
                         <Image HorizontalAlignment="Left" Height="55" Margin="446,0,0,0" VerticalAlignment="Top" Width="58" Source="Images/Status.png"/>
                         <TextBlock HorizontalAlignment="Left" Margin="874,10,0,0" TextWrapping="Wrap" Text="A Very Simple Setup" VerticalAlignment="Top" Height="19" Width="115"/>
                     </Grid>
                 </DockPanel>
-                <Viewbox Margin="10,67,553,346">
+                <Viewbox Margin="10,67,553,346" Grid.ColumnSpan="2">
                     <Image x:Name="Image" Height="105" Width="148"/>
                 </Viewbox>
-                <DockPanel Margin="10,591,0,117">
+                <DockPanel Margin="10,591,0,117" Grid.ColumnSpan="2">
                     <CheckBox x:Name="checkBoxSeatedMode" Content="Seated Mode" HorizontalAlignment="Left" Margin="0,13,0,26" Width="121"/>
                     <StatusBar x:Name="statusBar" HorizontalAlignment="Left" Width="918" Margin="0,0,0,14">
                         <StatusBarItem Height="23" VerticalAlignment="Top" Margin="0,10,0,0" Width="908">
@@ -67,22 +71,24 @@
                         </StatusBarItem>
                     </StatusBar>
                 </DockPanel>
-                <Grid Margin="10,424,553,188" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}">
+                <Grid Margin="10,424,553,188" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" Grid.ColumnSpan="2">
                     <CheckBox x:Name="skeletonCheckBox" Content="Skeleton" Margin="10,10,10,0" VerticalAlignment="Top" Height="23"/>
                     <CheckBox x:Name="videoCheckBox" Content="Video" Margin="10,38,10,0" VerticalAlignment="Top" RenderTransformOrigin="-0.456,-1.625" Height="22"/>
                     <CheckBox x:Name="audioCheckBox" Content="Audio" Margin="10,65,10,0" VerticalAlignment="Top" Height="24"/>
                 </Grid>
+                <Button Content="Save To Database" HorizontalAlignment="Left" Margin="90,538,0,0" VerticalAlignment="Top" Width="133" Click="Button_Click_1" Grid.Column="1"/>
+                <Button Content="Start Recording" HorizontalAlignment="Left" Margin="33,538,0,0" VerticalAlignment="Top" Width="133" Click="Button_StartRecording" Grid.ColumnSpan="2"/>
             </Grid>
         </TabItem>
         <TabItem Header="Features">
             <ScrollViewer HorizontalAlignment="Left" Height="647" VerticalAlignment="Top" Width="1063">
-                <Grid Height="765" Background="#FFE5E5E5" DataContext="{StaticResource jointValuesViewSource}">
-                    <chartingToolkit:Chart x:Name="columnChart" Title="Chart Title" Margin="12,10,378,330" >
-                        <chartingToolkit:ColumnSeries DependentValuePath="Value" 
-    						IndependentValuePath="Key" ItemsSource="{Binding}" 
-    						HorizontalAlignment="Left" Height="248" VerticalAlignment="Top" Width="292"/>
+                <Grid Height="765" Background="#FFE5E5E5" >
+                    <chartingToolkit:Chart x:Name="columnChart" Title="Skeleton Data" Margin="12,10,58,330" >
+                        <chartingToolkit:LineSeries Title="Head-X" IndependentValueBinding="{Binding Head_Y}" DependentValueBinding="{Binding Head_X}"></chartingToolkit:LineSeries>
+                        <chartingToolkit:LineSeries Title="LeftHand-X" IndependentValueBinding="{Binding Head_Y}" DependentValueBinding="{Binding HandLeft_X}"></chartingToolkit:LineSeries>
+                        <chartingToolkit:LineSeries Title="RightHand-X" IndependentValueBinding="{Binding Head_Y}" DependentValueBinding="{Binding HandRight_X}"></chartingToolkit:LineSeries>
                     </chartingToolkit:Chart>
-                    <Grid x:Name="grid1" DataContext="{StaticResource jointValuesViewSource1}" HorizontalAlignment="Left" Margin="805,473,0,0" VerticalAlignment="Top">
+                    <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="805,473,0,0" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -102,6 +108,7 @@
                         <Label Content="z Value:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
                         <TextBox x:Name="zValueTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding zValue, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                     </Grid>
+                    <Button Content="Load Data" HorizontalAlignment="Left" Margin="509,555,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" RenderTransformOrigin="3.05,-3.485"/>
                 </Grid>
             </ScrollViewer>
         </TabItem>

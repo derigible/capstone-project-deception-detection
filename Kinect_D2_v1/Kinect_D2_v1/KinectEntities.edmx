@@ -4,9 +4,10 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KinectDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KinectDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="KinectDatabaseModelStoreContainer">
           <EntitySet Name="JointValues" EntityType="KinectDatabaseModel.Store.JointValues" store:Type="Tables" />
+          <EntitySet Name="RawData" EntityType="KinectDatabaseModel.Store.RawData" store:Type="Tables" />
         </EntityContainer>
         <EntityType Name="JointValues">
           <Key>
@@ -17,13 +18,80 @@
           <Property Name="yValue" Type="float" />
           <Property Name="zValue" Type="float" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+        <EntityType Name="RawData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="Head_X" Type="float" />
+          <Property Name="Head_Y" Type="float" />
+          <Property Name="Head_Z" Type="float" />
+          <Property Name="ShoulderCenter_X" Type="float" />
+          <Property Name="ShoulderCenter_Y" Type="float" />
+          <Property Name="ShoulderCenter_Z" Type="float" />
+          <Property Name="ShoulderLeft_X" Type="float" />
+          <Property Name="ShoulderLeft_Y" Type="float" />
+          <Property Name="ShoulderLeft_Z" Type="float" />
+          <Property Name="ShoulderRight_X" Type="float" />
+          <Property Name="ShoulderRight_Y" Type="float" />
+          <Property Name="ShoulderRight_Z" Type="float" />
+          <Property Name="Spine_X" Type="float" />
+          <Property Name="Spine_Y" Type="float" />
+          <Property Name="Spine_Z" Type="float" />
+          <Property Name="HipCenter_X" Type="float" />
+          <Property Name="HipCenter_Y" Type="float" />
+          <Property Name="HipCenter_Z" Type="float" />
+          <Property Name="HipLeft_X" Type="float" />
+          <Property Name="HipLeft_Y" Type="float" />
+          <Property Name="HipLeft_Z" Type="float" />
+          <Property Name="HipRight_X" Type="float" />
+          <Property Name="HipRight_Y" Type="float" />
+          <Property Name="HipRight_Z" Type="float" />
+          <Property Name="ElbowLeft_X" Type="float" />
+          <Property Name="ElbowLeft_Y" Type="float" />
+          <Property Name="ElbowLeft_Z" Type="float" />
+          <Property Name="WristLeft_X" Type="float" />
+          <Property Name="WristLeft_Y" Type="float" />
+          <Property Name="WristLeft_Z" Type="float" />
+          <Property Name="HandLeft_X" Type="float" />
+          <Property Name="HandLeft_Y" Type="float" />
+          <Property Name="HandLeft_Z" Type="float" />
+          <Property Name="ElbowRight_X" Type="float" />
+          <Property Name="ElbowRight_Y" Type="float" />
+          <Property Name="ElbowRight_Z" Type="float" />
+          <Property Name="WristRight_X" Type="float" />
+          <Property Name="WristRight_Y" Type="float" />
+          <Property Name="WristRight_Z" Type="float" />
+          <Property Name="HandRight_X" Type="float" />
+          <Property Name="HandRight_Y" Type="float" />
+          <Property Name="HandRight_Z" Type="float" />
+          <Property Name="KneeLeft_X" Type="float" />
+          <Property Name="KneeLeft_Y" Type="float" />
+          <Property Name="KneeLeft_Z" Type="float" />
+          <Property Name="AnkleLeft_X" Type="float" />
+          <Property Name="AnkleLeft_Y" Type="float" />
+          <Property Name="AnkleLeft_Z" Type="float" />
+          <Property Name="FootLeft_X" Type="float" />
+          <Property Name="FootLeft_Y" Type="float" />
+          <Property Name="FootLeft_Z" Type="float" />
+          <Property Name="KneeRight_X" Type="float" />
+          <Property Name="KneeRight_Y" Type="float" />
+          <Property Name="KneeRight_Z" Type="float" />
+          <Property Name="AnkleRight_X" Type="float" />
+          <Property Name="AnkleRight_Y" Type="float" />
+          <Property Name="AnkleRight_Z" Type="float" />
+          <Property Name="FootRight_X" Type="float" />
+          <Property Name="FootRight_Y" Type="float" />
+          <Property Name="FootRight_Z" Type="float" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KinectDatabaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="KinectDatabaseEntities1" p1:LazyLoadingEnabled="true">
           <EntitySet Name="JointValues" EntityType="KinectDatabaseModel.JointValue" />
+          <EntitySet Name="RawDatas" EntityType="KinectDatabaseModel.RawData" />
         </EntityContainer>
         <EntityType Name="JointValue">
           <Key>
@@ -33,6 +101,73 @@
           <Property Name="xValue" Type="Double" />
           <Property Name="yValue" Type="Double" />
           <Property Name="zValue" Type="Double" />
+        </EntityType>
+        <EntityType Name="RawData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="timestamp" Precision="3" />
+          <Property Type="Double" Name="Head_X" />
+          <Property Type="Double" Name="Head_Y" />
+          <Property Type="Double" Name="Head_Z" />
+          <Property Type="Double" Name="ShoulderCenter_X" />
+          <Property Type="Double" Name="ShoulderCenter_Y" />
+          <Property Type="Double" Name="ShoulderCenter_Z" />
+          <Property Type="Double" Name="ShoulderLeft_X" />
+          <Property Type="Double" Name="ShoulderLeft_Y" />
+          <Property Type="Double" Name="ShoulderLeft_Z" />
+          <Property Type="Double" Name="ShoulderRight_X" />
+          <Property Type="Double" Name="ShoulderRight_Y" />
+          <Property Type="Double" Name="ShoulderRight_Z" />
+          <Property Type="Double" Name="Spine_X" />
+          <Property Type="Double" Name="Spine_Y" />
+          <Property Type="Double" Name="Spine_Z" />
+          <Property Type="Double" Name="HipCenter_X" />
+          <Property Type="Double" Name="HipCenter_Y" />
+          <Property Type="Double" Name="HipCenter_Z" />
+          <Property Type="Double" Name="HipLeft_X" />
+          <Property Type="Double" Name="HipLeft_Y" />
+          <Property Type="Double" Name="HipLeft_Z" />
+          <Property Type="Double" Name="HipRight_X" />
+          <Property Type="Double" Name="HipRight_Y" />
+          <Property Type="Double" Name="HipRight_Z" />
+          <Property Type="Double" Name="ElbowLeft_X" />
+          <Property Type="Double" Name="ElbowLeft_Y" />
+          <Property Type="Double" Name="ElbowLeft_Z" />
+          <Property Type="Double" Name="WristLeft_X" />
+          <Property Type="Double" Name="WristLeft_Y" />
+          <Property Type="Double" Name="WristLeft_Z" />
+          <Property Type="Double" Name="HandLeft_X" />
+          <Property Type="Double" Name="HandLeft_Y" />
+          <Property Type="Double" Name="HandLeft_Z" />
+          <Property Type="Double" Name="ElbowRight_X" />
+          <Property Type="Double" Name="ElbowRight_Y" />
+          <Property Type="Double" Name="ElbowRight_Z" />
+          <Property Type="Double" Name="WristRight_X" />
+          <Property Type="Double" Name="WristRight_Y" />
+          <Property Type="Double" Name="WristRight_Z" />
+          <Property Type="Double" Name="HandRight_X" />
+          <Property Type="Double" Name="HandRight_Y" />
+          <Property Type="Double" Name="HandRight_Z" />
+          <Property Type="Double" Name="KneeLeft_X" />
+          <Property Type="Double" Name="KneeLeft_Y" />
+          <Property Type="Double" Name="KneeLeft_Z" />
+          <Property Type="Double" Name="AnkleLeft_X" />
+          <Property Type="Double" Name="AnkleLeft_Y" />
+          <Property Type="Double" Name="AnkleLeft_Z" />
+          <Property Type="Double" Name="FootLeft_X" />
+          <Property Type="Double" Name="FootLeft_Y" />
+          <Property Type="Double" Name="FootLeft_Z" />
+          <Property Type="Double" Name="KneeRight_X" />
+          <Property Type="Double" Name="KneeRight_Y" />
+          <Property Type="Double" Name="KneeRight_Z" />
+          <Property Type="Double" Name="AnkleRight_X" />
+          <Property Type="Double" Name="AnkleRight_Y" />
+          <Property Type="Double" Name="AnkleRight_Z" />
+          <Property Type="Double" Name="FootRight_X" />
+          <Property Type="Double" Name="FootRight_Y" />
+          <Property Type="Double" Name="FootRight_Z" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -47,6 +182,74 @@
                 <ScalarProperty Name="xValue" ColumnName="xValue" />
                 <ScalarProperty Name="yValue" ColumnName="yValue" />
                 <ScalarProperty Name="zValue" ColumnName="zValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RawDatas">
+            <EntityTypeMapping TypeName="KinectDatabaseModel.RawData">
+              <MappingFragment StoreEntitySet="RawData">
+                <ScalarProperty Name="FootRight_Z" ColumnName="FootRight_Z" />
+                <ScalarProperty Name="FootRight_Y" ColumnName="FootRight_Y" />
+                <ScalarProperty Name="FootRight_X" ColumnName="FootRight_X" />
+                <ScalarProperty Name="AnkleRight_Z" ColumnName="AnkleRight_Z" />
+                <ScalarProperty Name="AnkleRight_Y" ColumnName="AnkleRight_Y" />
+                <ScalarProperty Name="AnkleRight_X" ColumnName="AnkleRight_X" />
+                <ScalarProperty Name="KneeRight_Z" ColumnName="KneeRight_Z" />
+                <ScalarProperty Name="KneeRight_Y" ColumnName="KneeRight_Y" />
+                <ScalarProperty Name="KneeRight_X" ColumnName="KneeRight_X" />
+                <ScalarProperty Name="FootLeft_Z" ColumnName="FootLeft_Z" />
+                <ScalarProperty Name="FootLeft_Y" ColumnName="FootLeft_Y" />
+                <ScalarProperty Name="FootLeft_X" ColumnName="FootLeft_X" />
+                <ScalarProperty Name="AnkleLeft_Z" ColumnName="AnkleLeft_Z" />
+                <ScalarProperty Name="AnkleLeft_Y" ColumnName="AnkleLeft_Y" />
+                <ScalarProperty Name="AnkleLeft_X" ColumnName="AnkleLeft_X" />
+                <ScalarProperty Name="KneeLeft_Z" ColumnName="KneeLeft_Z" />
+                <ScalarProperty Name="KneeLeft_Y" ColumnName="KneeLeft_Y" />
+                <ScalarProperty Name="KneeLeft_X" ColumnName="KneeLeft_X" />
+                <ScalarProperty Name="HandRight_Z" ColumnName="HandRight_Z" />
+                <ScalarProperty Name="HandRight_Y" ColumnName="HandRight_Y" />
+                <ScalarProperty Name="HandRight_X" ColumnName="HandRight_X" />
+                <ScalarProperty Name="WristRight_Z" ColumnName="WristRight_Z" />
+                <ScalarProperty Name="WristRight_Y" ColumnName="WristRight_Y" />
+                <ScalarProperty Name="WristRight_X" ColumnName="WristRight_X" />
+                <ScalarProperty Name="ElbowRight_Z" ColumnName="ElbowRight_Z" />
+                <ScalarProperty Name="ElbowRight_Y" ColumnName="ElbowRight_Y" />
+                <ScalarProperty Name="ElbowRight_X" ColumnName="ElbowRight_X" />
+                <ScalarProperty Name="HandLeft_Z" ColumnName="HandLeft_Z" />
+                <ScalarProperty Name="HandLeft_Y" ColumnName="HandLeft_Y" />
+                <ScalarProperty Name="HandLeft_X" ColumnName="HandLeft_X" />
+                <ScalarProperty Name="WristLeft_Z" ColumnName="WristLeft_Z" />
+                <ScalarProperty Name="WristLeft_Y" ColumnName="WristLeft_Y" />
+                <ScalarProperty Name="WristLeft_X" ColumnName="WristLeft_X" />
+                <ScalarProperty Name="ElbowLeft_Z" ColumnName="ElbowLeft_Z" />
+                <ScalarProperty Name="ElbowLeft_Y" ColumnName="ElbowLeft_Y" />
+                <ScalarProperty Name="ElbowLeft_X" ColumnName="ElbowLeft_X" />
+                <ScalarProperty Name="HipRight_Z" ColumnName="HipRight_Z" />
+                <ScalarProperty Name="HipRight_Y" ColumnName="HipRight_Y" />
+                <ScalarProperty Name="HipRight_X" ColumnName="HipRight_X" />
+                <ScalarProperty Name="HipLeft_Z" ColumnName="HipLeft_Z" />
+                <ScalarProperty Name="HipLeft_Y" ColumnName="HipLeft_Y" />
+                <ScalarProperty Name="HipLeft_X" ColumnName="HipLeft_X" />
+                <ScalarProperty Name="HipCenter_Z" ColumnName="HipCenter_Z" />
+                <ScalarProperty Name="HipCenter_Y" ColumnName="HipCenter_Y" />
+                <ScalarProperty Name="HipCenter_X" ColumnName="HipCenter_X" />
+                <ScalarProperty Name="Spine_Z" ColumnName="Spine_Z" />
+                <ScalarProperty Name="Spine_Y" ColumnName="Spine_Y" />
+                <ScalarProperty Name="Spine_X" ColumnName="Spine_X" />
+                <ScalarProperty Name="ShoulderRight_Z" ColumnName="ShoulderRight_Z" />
+                <ScalarProperty Name="ShoulderRight_Y" ColumnName="ShoulderRight_Y" />
+                <ScalarProperty Name="ShoulderRight_X" ColumnName="ShoulderRight_X" />
+                <ScalarProperty Name="ShoulderLeft_Z" ColumnName="ShoulderLeft_Z" />
+                <ScalarProperty Name="ShoulderLeft_Y" ColumnName="ShoulderLeft_Y" />
+                <ScalarProperty Name="ShoulderLeft_X" ColumnName="ShoulderLeft_X" />
+                <ScalarProperty Name="ShoulderCenter_Z" ColumnName="ShoulderCenter_Z" />
+                <ScalarProperty Name="ShoulderCenter_Y" ColumnName="ShoulderCenter_Y" />
+                <ScalarProperty Name="ShoulderCenter_X" ColumnName="ShoulderCenter_X" />
+                <ScalarProperty Name="Head_Z" ColumnName="Head_Z" />
+                <ScalarProperty Name="Head_Y" ColumnName="Head_Y" />
+                <ScalarProperty Name="Head_X" ColumnName="Head_X" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

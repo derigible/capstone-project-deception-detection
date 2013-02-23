@@ -13,6 +13,7 @@ namespace Kinect_D2_v1
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data;
+    
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -84,8 +85,13 @@ namespace Kinect_D2_v1
         /// </summary>
         private DrawingImage imageSource;
 
-        Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter kinectDatabaseDataSet1JointValuesTableAdapter;
-        DbSet<JointValue> vals;
+        //this is needed in order to clear out and stop the sensor
+        //BackgroundWorker bw = new BackgroundWorker();
+
+        //Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter kinectDatabaseDataSet1JointValuesTableAdapter;
+        //DbSet<JointValue> vals;
+        DbSet<RawData> raw;
+        
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -166,53 +172,15 @@ namespace Kinect_D2_v1
             // Display the drawing using our image control
             Image.Source = this.imageSource;
 
-            // Look through all sensors and start the first connected one.
-            // This requires that a Kinect is connected at the time of app startup.
-            // To make your app robust against plug/unplug, 
-            // it is recommended to use KinectSensorChooser provided in Microsoft.Kinect.Toolkit
-            foreach (var potentialSensor in KinectSensor.KinectSensors)
-            {
-                if (potentialSensor.Status == KinectStatus.Connected)
-                {
-                    this.sensor = potentialSensor;
-                    break;
-                }
-            }
 
-            if (null != this.sensor)
-            {
-                // Turn on the skeleton stream to receive skeleton frames
-                this.sensor.SkeletonStream.Enable();
-
-                // Add an event handler to be called whenever there is new color frame data
-                this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
-
-                // Start the sensor!
-                try
-                {
-                    this.sensor.Start();
-                }
-                catch (IOException)
-                {
-                    this.sensor = null;
-                }
-            }
-
-            if (null == this.sensor)
-            {
-                this.statusBarText.Text = Properties.Resources.NoKinectReady;
-            }
-
-            //Create an entity version
-            vals = new Kinect_D2_v1.KinectDatabaseEntities1().Set<JointValue>();
             //Create the table adapter version
-            Kinect_D2_v1.KinectDatabaseDataSet1 kinectDatabaseDataSet1 = ((Kinect_D2_v1.KinectDatabaseDataSet1)(this.FindResource("kinectDatabaseDataSet1")));
+            //Kinect_D2_v1.KinectDatabaseDataSet1 kinectDatabaseDataSet1 = ((Kinect_D2_v1.KinectDatabaseDataSet1)(this.FindResource("kinectDatabaseDataSet1")));
             
             // Load data into the table JointValues. You can modify this code as needed.
-            kinectDatabaseDataSet1JointValuesTableAdapter = new Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter();
-            kinectDatabaseDataSet1JointValuesTableAdapter.Fill(kinectDatabaseDataSet1.JointValues);
-            System.Windows.Data.CollectionViewSource jointValuesViewSource1 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("jointValuesViewSource1")));
-            jointValuesViewSource1.View.MoveCurrentToFirst();
+            //kinectDatabaseDataSet1JointValuesTableAdapter = new Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter();
+            //kinectDatabaseDataSet1JointValuesTableAdapter.Fill(kinectDatabaseDataSet1.JointValues);
+            //System.Windows.Data.CollectionViewSource jointValuesViewSource1 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("jointValuesViewSource1")));
+            //jointValuesViewSource1.View.MoveCurrentToFirst();
         }
 
         /// <summary>
@@ -260,6 +228,8 @@ namespace Kinect_D2_v1
                         if (skel.TrackingState == SkeletonTrackingState.Tracked)
                         {
                             this.DrawBonesAndJoints(skel, dc);
+                            SaveSkeletonToRaw(skeletons);
+                            
                         }
                         else if (skel.TrackingState == SkeletonTrackingState.PositionOnly)
                         {
@@ -276,6 +246,20 @@ namespace Kinect_D2_v1
                 // prevent drawing outside of our render area
                 this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight));
             }
+        }
+
+        private void SaveSkeletonToRaw(Skeleton[] skeletons)
+        {
+            foreach (Skeleton skel in skeletons)
+            {
+                if (skel.TrackingState == SkeletonTrackingState.Tracked)
+                {
+                    RawData tmp =new RawData();
+                    tmp.SetJoints(skel.Joints);
+                    raw.Add(tmp);
+                }
+            }
+
         }
 
         /// <summary>
@@ -332,10 +316,6 @@ namespace Kinect_D2_v1
                 {
                     drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), JointThickness, JointThickness);
                 }
-                vals.Add(new JointValue(joint.GetHashCode(), joint.Position.X,
-                   joint.Position.Y, joint.Position.Z));
-                kinectDatabaseDataSet1JointValuesTableAdapter.Insert(joint.GetHashCode(), joint.Position.X,
-                   joint.Position.Y, joint.Position.Z);
             }
 
         }
@@ -411,6 +391,86 @@ namespace Kinect_D2_v1
 
         private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            sensor.SkeletonStream.Disable();
+            //sensor.SkeletonStream.Disable();
+            //sensor
+            MessageBox.Show("Stream Stopped");
+
+            //stop the recording
+            if (null != this.sensor)
+            {
+                this.sensor.Stop();
+            }
+            MessageBox.Show("Sensor Stopped");
+
+            KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
+            foreach(RawData rawdata in raw.Local){
+                ent.RawDatas.Add(rawdata);                
+            }
+            //ent.RawDatas = raw;
+            ent.SaveChanges();
+            MessageBox.Show("Records saved to database");
+
+           
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
+
+            //var tmpRawData = from r in ent.RawDatas select r;
+            ent.RawDatas.Load();
+            columnChart.DataContext = ent.RawDatas.Local;
+            columnChart.UpdateLayout();
+        }
+
+        private void Button_StartRecording(object sender, RoutedEventArgs e)
+        {
+            // Look through all sensors and start the first connected one.
+            // This requires that a Kinect is connected at the time of app startup.
+            // To make your app robust against plug/unplug, 
+            // it is recommended to use KinectSensorChooser provided in Microsoft.Kinect.Toolkit
+            foreach (var potentialSensor in KinectSensor.KinectSensors)
+            {
+                if (potentialSensor.Status == KinectStatus.Connected)
+                {
+                    this.sensor = potentialSensor;
+                    break;
+                }
+            }
+
+            if (null != this.sensor)
+            {
+                // Turn on the skeleton stream to receive skeleton frames
+                this.sensor.SkeletonStream.Enable();
+
+                // Add an event handler to be called whenever there is new color frame data
+                this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
+
+                // Start the sensor!
+                try
+                {
+                    this.sensor.Start();
+                }
+                catch (IOException)
+                {
+                    this.sensor = null;
+                }
+            }
+
+            if (null == this.sensor)
+            {
+                this.statusBarText.Text = Properties.Resources.NoKinectReady;
+            }
+
+            //Create an entity version
+            //vals = new Kinect_D2_v1.KinectDatabaseEntities1().Set<JointValue>();
+            raw = new Kinect_D2_v1.KinectDatabaseEntities1().Set<RawData>();
 
         }
     }

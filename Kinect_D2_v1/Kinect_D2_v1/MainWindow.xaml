@@ -1,123 +1,143 @@
-﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Kinect_D2_v1" xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit" x:Class="Kinect_D2_v1.MainWindow"
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:local="clr-namespace:Kinect_D2_v1" 
+        xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit" 
+        x:Class="Kinect_D2_v1.MainWindow"
         xmlns:toolkit="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
+        xmlns:kt="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers"
         Title="Deception Basic" Height="724" Width="1096" Loaded="WindowLoaded" Closing="WindowClosing">
     <Window.Resources>
-        <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e"/>
-        <SolidColorBrush x:Key="KinectPurpleBrush" Color="#ff52318f"/>
-        <SolidColorBrush x:Key="KinectBlueBrush" Color="#ff00BCF2"/>
-        <Style TargetType="{x:Type Image}">
-            <Setter Property="SnapsToDevicePixels" Value="True"/>
-        </Style>
-        <Style TargetType="{x:Type CheckBox}" x:Key="SquareCheckBox" >
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type CheckBox}">
-                        <Grid>
-                            <StackPanel Orientation="Horizontal" Background="Transparent">
-                                <Grid x:Name="SquareCheckBoxChecked">
-                                    <Image x:Name="CheckedNormal" Source="Images\CheckedNormal.png" Stretch="None" HorizontalAlignment="Center"/>
-                                    <Image x:Name="CheckedHover" Source="Images\CheckedHover.png" Stretch="None" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                                </Grid>
-                                <Grid x:Name="SquareCheckBoxUnchecked" Visibility="Collapsed">
-                                    <Image x:Name="UncheckedNormal" Source="Images\UncheckedNormal.png" Stretch="None" HorizontalAlignment="Center"/>
-                                    <Image x:Name="UncheckedHover" Source="Images\UncheckedHover.png" Stretch="None" HorizontalAlignment="Center" Visibility="Collapsed"/>
-                                </Grid>
-                                <TextBlock x:Name="SquareCheckBoxText" Text="{TemplateBinding Content}" TextAlignment="Left"  VerticalAlignment="Center" Foreground="{StaticResource KinectPurpleBrush}" FontSize="15"  Margin="9,0,0,0"/>
-                            </StackPanel>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="false">
-                                <Setter Property="Visibility" Value="Collapsed" TargetName="SquareCheckBoxChecked"/>
-                                <Setter Property="Visibility" Value="Visible" TargetName="SquareCheckBoxUnchecked"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Visibility" Value="Collapsed" TargetName="CheckedNormal"/>
-                                <Setter Property="Visibility" Value="Collapsed" TargetName="UncheckedNormal"/>
-                                <Setter Property="Visibility" Value="Visible" TargetName="CheckedHover"/>
-                                <Setter Property="Visibility" Value="Visible" TargetName="UncheckedHover"/>
-                                <Setter Property="Foreground" Value="{StaticResource KinectBlueBrush}" TargetName="SquareCheckBoxText"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Microsoft.Samples.Kinect.WpfViewers;component/KinectControlResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e"/>
+            <SolidColorBrush x:Key="KinectPurpleBrush" Color="#ff52318f"/>
+            <SolidColorBrush x:Key="KinectBlueBrush" Color="#ff00BCF2"/>
+            <Style TargetType="{x:Type Image}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+            </Style>
+            <Style TargetType="{x:Type CheckBox}" x:Key="SquareCheckBox" >
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type CheckBox}">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" Background="Transparent">
+                                    <Grid x:Name="SquareCheckBoxChecked">
+                                        <Image x:Name="CheckedNormal" Source="Images\CheckedNormal.png" Stretch="None" HorizontalAlignment="Center"/>
+                                        <Image x:Name="CheckedHover" Source="Images\CheckedHover.png" Stretch="None" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                    <Grid x:Name="SquareCheckBoxUnchecked" Visibility="Collapsed">
+                                        <Image x:Name="UncheckedNormal" Source="Images\UncheckedNormal.png" Stretch="None" HorizontalAlignment="Center"/>
+                                        <Image x:Name="UncheckedHover" Source="Images\UncheckedHover.png" Stretch="None" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                    <TextBlock x:Name="SquareCheckBoxText" Text="{TemplateBinding Content}" TextAlignment="Left"  VerticalAlignment="Center" Foreground="{StaticResource KinectPurpleBrush}" FontSize="15"  Margin="9,0,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="false">
+                                    <Setter Property="Visibility" Value="Collapsed" TargetName="SquareCheckBoxChecked"/>
+                                    <Setter Property="Visibility" Value="Visible" TargetName="SquareCheckBoxUnchecked"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Visibility" Value="Collapsed" TargetName="CheckedNormal"/>
+                                    <Setter Property="Visibility" Value="Collapsed" TargetName="UncheckedNormal"/>
+                                    <Setter Property="Visibility" Value="Visible" TargetName="CheckedHover"/>
+                                    <Setter Property="Visibility" Value="Visible" TargetName="UncheckedHover"/>
+                                    <Setter Property="Foreground" Value="{StaticResource KinectBlueBrush}" TargetName="SquareCheckBoxText"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>  
     </Window.Resources>
     <TabControl Margin="3,3,12,12">
-        <TabItem x:Name="MainTab" Header="Main">
-            <toolkit:KinectSensorChooserUI x:Name="SensorChooserUI" IsListening="True"  HorizontalAlignment="Center" VerticalAlignment="Top" />
-        </TabItem>
         <TabItem x:Name="VideoPlaybackTab" Header="Video Playback">
             <Grid x:Name="layoutGrid" Margin="0,0,2,-4" Height="765" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <!-- The title bar -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- The main viewer -->
+                    <RowDefinition Height="335*"/>
+                    <!-- The side panel -->
+                    <RowDefinition Height="161*"/>
+                    <!-- The status bar -->
+                    <RowDefinition Height="182*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="198*"/>
-                    <ColumnDefinition Width="863*"/>
+                    <!-- The main viewer -->
+                    <ColumnDefinition Width="650*" MinWidth="650"/>
+                    <ColumnDefinition Width="411*"/>
                 </Grid.ColumnDefinitions>
-                <DockPanel LastChildFill="False" Margin="0,0,10,698" Grid.ColumnSpan="2">
+                <toolkit:KinectSensorChooserUI x:Name="SensorChooserUI" IsListening="True"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="40" Margin="310,0,300,0" Width="40" />
+                <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="10,0,11,20">
                     <Grid Height="60" VerticalAlignment="Top" Margin="10,7,10,0" DockPanel.Dock="Top">
-                        <Image HorizontalAlignment="Left" Height="45" Margin="10,0,0,0" VerticalAlignment="Top" Width="93" Source="Images/Logo.png"/>
-                        <Image HorizontalAlignment="Left" Height="55" Margin="446,0,0,0" VerticalAlignment="Top" Width="58" Source="Images/Status.png"/>
-                        <TextBlock HorizontalAlignment="Left" Margin="874,10,0,0" TextWrapping="Wrap" Text="A Very Simple Setup" VerticalAlignment="Top" Height="19" Width="115"/>
+                        <Image Height="45" Margin="10,0,917,0" VerticalAlignment="Top" Source="Images/Logo.png"/>
+                        <Image Height="55" Margin="446,0,516,0" VerticalAlignment="Top" Source="Images/Status.png"/>
+                        <TextBlock Margin="835,10,31,0" TextWrapping="Wrap" Text="Kinect Control and Capture" Height="20" VerticalAlignment="Top"/>
                     </Grid>
                 </DockPanel>
-                <Viewbox Margin="10,67,553,346" Grid.ColumnSpan="2">
+                <!-- The main viewer -->
+                <Grid Grid.Column="0" Grid.Row="1" Margin="10" >
+                    <Grid Name="MainViewerHost">
+                        <Grid Name="ColorVis" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}">
+                            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform">
+                                <!-- Make the colorViewer and skeletonViewer overlap entirely. -->
+                                <Grid>
+                                    <kt:KinectColorViewer x:Name="ColorViewer" KinectSensorManager="{Binding KinectSensorManager}" CollectFrameRate="True" RetainImageOnSensorChange="True" />
+                                    <Canvas>
+                                        <kt:KinectSkeletonViewer 
+                                    KinectSensorManager="{Binding KinectSensorManager}"
+                                    Visibility="{Binding KinectSensorManager.ColorStreamEnabled, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Width="{Binding ElementName=ColorViewer,Path=ActualWidth}"
+                                    Height="{Binding ElementName=ColorViewer,Path=ActualHeight}"
+                                    ImageType="Color" />
+                                    </Canvas>
+                                </Grid>
+                            </Viewbox>
+                            <Border 
+                        TextBlock.Foreground="{StaticResource LabelForegroundBrush}" 
+                        HorizontalAlignment="Right" VerticalAlignment="Top" 
+                        Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"
+                        Width="50" Height="50">
+                                <StackPanel Orientation="Vertical" >
+                                    <TextBlock FontSize="{StaticResource HeaderFontSize}" Text="{Binding ElementName=ColorViewer, Path=FrameRate}" HorizontalAlignment="Center" Margin="-2"/>
+                                    <TextBlock FontSize="{StaticResource FPSFontSize}" HorizontalAlignment="Center" Margin="-2">FPS</TextBlock>
+                                </StackPanel>
+                            </Border>
+                            <Rectangle Fill="#7777" Visibility="{Binding KinectSensorManager.ColorStreamEnabled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" SnapsToDevicePixels="True"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <!--<Viewbox Margin="10,6,5,4" Grid.Row="1">
                     <Image x:Name="Image" Height="105" Width="148"/>
-                </Viewbox>
-                <DockPanel Margin="10,591,0,117" Grid.ColumnSpan="2">
-                    <CheckBox x:Name="checkBoxSeatedMode" Content="Seated Mode" HorizontalAlignment="Left" Margin="0,13,0,26" Width="121"/>
-                    <StatusBar x:Name="statusBar" HorizontalAlignment="Left" Width="918" Margin="0,0,0,14">
-                        <StatusBarItem Height="23" VerticalAlignment="Top" Margin="0,10,0,0" Width="908">
-                            <TextBlock x:Name="statusBarText" TextWrapping="Wrap" Text="We Rock!" Width="622" Height="17"/>
-                        </StatusBarItem>
-                    </StatusBar>
-                </DockPanel>
-                <Grid Margin="10,424,553,188" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" Grid.ColumnSpan="2">
+                </Viewbox>-->
+
+                <Grid Grid.Row="2" Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
+              Margin="10,10,10,0"
+              VerticalAlignment="Top" Height="121">
                     <CheckBox x:Name="skeletonCheckBox" Content="Skeleton" Margin="10,10,10,0" VerticalAlignment="Top" Height="23"/>
                     <CheckBox x:Name="videoCheckBox" Content="Video" Margin="10,38,10,0" VerticalAlignment="Top" RenderTransformOrigin="-0.456,-1.625" Height="22"/>
                     <CheckBox x:Name="audioCheckBox" Content="Audio" Margin="10,65,10,0" VerticalAlignment="Top" Height="24"/>
+                    <Button x:Name="saveToDatabaseButton" Content="Save To Database" HorizontalAlignment="Left" Margin="231,99,0,0" VerticalAlignment="Top" Width="133" Click="Button_SaveToDatabase" Height="22"/>
+                    <Button x:Name="startRecordingButton" Content="Start Recording" HorizontalAlignment="Left" Margin="33,99,0,0" VerticalAlignment="Top" Width="133" Click="Button_StartRecording" Height="22"/>
                 </Grid>
-                <Button x:Name="saveToDatabaseButton" Content="Save To Database" HorizontalAlignment="Left" Margin="90,538,0,0" VerticalAlignment="Top" Width="133" Click="Button_SaveToDatabase" Grid.Column="1" Height="22"/>
-                <Button x:Name="startRecordingButton" Content="Start Recording" HorizontalAlignment="Left" Margin="33,538,0,0" VerticalAlignment="Top" Width="133" Click="Button_StartRecording" Height="22"/>
+                <Grid Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="75">
+                    <DockPanel Margin="10 0 10 20">
+                        <CheckBox x:Name="checkBoxSeatedMode" Content="Seated Mode" HorizontalAlignment="Left" Margin="0,13,0,26" Width="121"/>
+                        <StatusBar x:Name="statusBar" HorizontalAlignment="Left" Width="918" Margin="0,0,0,14">
+                            <StatusBarItem Height="23" VerticalAlignment="Top" Margin="0,10,0,0" Width="908">
+                                <TextBlock x:Name="statusBarText" TextWrapping="Wrap" Text="We Rock!" Width="622" Height="17"/>
+                            </StatusBarItem>
+                        </StatusBar>
+                    </DockPanel>
+                </Grid>
+                <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+                    <kt:KinectSettings KinectSensorManager="{Binding KinectSensorManager}" DepthTreatment="{Binding DepthTreatment, Mode=TwoWay}" Margin="0 20 0 0" SnapsToDevicePixels="True"/>
+                </Grid>
             </Grid>
         </TabItem>
-        <TabItem x:Name="ChartingTab" Header="Charting">
-            <ScrollViewer HorizontalAlignment="Left" Height="647" VerticalAlignment="Top" Width="1063">
-                <Grid Height="765" Background="#FFE5E5E5" >
-                    <chartingToolkit:Chart x:Name="columnChart" Title="Skeleton Data" Margin="12,10,58,330" >
-                        <chartingToolkit:LineSeries Title="Head-X" IndependentValueBinding="{Binding Head_Y}" DependentValueBinding="{Binding Head_X}"></chartingToolkit:LineSeries>
-                        <chartingToolkit:LineSeries Title="LeftHand-X" IndependentValueBinding="{Binding Head_Y}" DependentValueBinding="{Binding HandLeft_X}"></chartingToolkit:LineSeries>
-                        <chartingToolkit:LineSeries Title="RightHand-X" IndependentValueBinding="{Binding Head_Y}" DependentValueBinding="{Binding HandRight_X}"></chartingToolkit:LineSeries>
-                    </chartingToolkit:Chart>
-                    <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="805,473,0,0" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
-                        <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
-                        <Label Content="x Value:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-                        <TextBox x:Name="xValueTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding xValue, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="y Value:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-                        <TextBox x:Name="yValueTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding yValue, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="z Value:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="zValueTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding zValue, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                    </Grid>
-                    <Button x:Name="loadDataButton" Content="Load Data" HorizontalAlignment="Left" Margin="509,555,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" RenderTransformOrigin="3.05,-3.485"/>
-                </Grid>
-            </ScrollViewer>
-        </TabItem>
-        <TabItem x:Name="CaptureTab" Header="Capture Data">
-            <ScrollViewer HorizontalAlignment="Left" Height="647" VerticalAlignment="Top" Width="1063">
-                <Grid Height="765" Background="#FFE5E5E5" >
-                </Grid>
-            </ScrollViewer>
-        </TabItem>
     </TabControl>
-
 </Window>

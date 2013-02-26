@@ -16,6 +16,9 @@ namespace Kinect_D2_v1
     using System.Data;
     using Microsoft.Kinect.Toolkit;
     using System.Windows.Data;
+    using System.Windows.Input;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Windows.Controls;
     using System.Runtime.InteropServices;
     using System;
     using System.ComponentModel;
@@ -94,6 +97,8 @@ namespace Kinect_D2_v1
 
         private readonly KinectSensorChooser sensorChooser = new KinectSensorChooser();
 
+        private readonly KinectWindowViewModel viewModel;
+
         //this is needed in order to clear out and stop the sensor
         //BackgroundWorker bw = new BackgroundWorker();
 
@@ -109,6 +114,7 @@ namespace Kinect_D2_v1
                 new PropertyMetadata(null));
         #endregion variable declarations
 
+        #region Window Managament
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -116,15 +122,63 @@ namespace Kinect_D2_v1
         {
             this.KinectSensorManager = new KinectSensorManager();
             this.KinectSensorManager.KinectSensorChanged += this.KinectSensorChanged;
-            this.DataContext = this.KinectSensorManager;
+            //this.DataContext = this.KinectSensorManager;
+
+            this.viewModel = new KinectWindowViewModel();
+
+            // The KinectSensorManager class is a wrapper for a KinectSensor that adds
+            // state logic and property change/binding/etc support, and is the data model
+            // for KinectDiagnosticViewer.
+            this.viewModel.KinectSensorManager = this.KinectSensorManager;
+
+            Binding sensorBinding = new Binding("KinectSensor");
+            sensorBinding.Source = this;
+            BindingOperations.SetBinding(this.viewModel.KinectSensorManager, KinectSensorManager.KinectSensorProperty, sensorBinding);
+
+            this.DataContext = this.viewModel;
 
             InitializeComponent();
-            showColumnChart();
+            //showColumnChart();
 
             this.SensorChooserUI.KinectSensorChooser = sensorChooser;
+        }
+
+        /// <summary>
+        /// A ViewModel for a KinectWindow.
+        /// </summary>
+        public class KinectWindowViewModel : DependencyObject
+        {
+            public static readonly DependencyProperty KinectSensorManagerProperty =
+                DependencyProperty.Register(
+                    "KinectSensorManager",
+                    typeof(KinectSensorManager),
+                    typeof(KinectWindowViewModel),
+                    new PropertyMetadata(null));
+
+            public static readonly DependencyProperty DepthTreatmentProperty =
+                DependencyProperty.Register(
+                    "DepthTreatment",
+                    typeof(KinectDepthTreatment),
+                    typeof(KinectWindowViewModel),
+                    new PropertyMetadata(KinectDepthTreatment.ClampUnreliableDepths));
+
+            public KinectSensorManager KinectSensorManager
+            {
+                get { return (KinectSensorManager)GetValue(KinectSensorManagerProperty); }
+                set { SetValue(KinectSensorManagerProperty, value); }
             }
 
+            public KinectDepthTreatment DepthTreatment
+            {
+                get { return (KinectDepthTreatment)GetValue(DepthTreatmentProperty); }
+                set { SetValue(DepthTreatmentProperty, value); }
+            }
+        }
+
+        #endregion Window Management
+
         #region kinect management
+
         public KinectSensorManager KinectSensorManager
         {
             get { return (KinectSensorManager)GetValue(KinectSensorManagerProperty); }
@@ -273,18 +327,7 @@ namespace Kinect_D2_v1
             // Create an image source that we can use in our image control
             this.imageSource = new DrawingImage(this.drawingGroup);
 
-            // Display the drawing using our image control
-            Image.Source = this.imageSource;
 
-
-            //Create the table adapter version
-            //Kinect_D2_v1.KinectDatabaseDataSet1 kinectDatabaseDataSet1 = ((Kinect_D2_v1.KinectDatabaseDataSet1)(this.FindResource("kinectDatabaseDataSet1")));
-
-            // Load data into the table JointValues. You can modify this code as needed.
-            //kinectDatabaseDataSet1JointValuesTableAdapter = new Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter();
-            //kinectDatabaseDataSet1JointValuesTableAdapter.Fill(kinectDatabaseDataSet1.JointValues);
-            //System.Windows.Data.CollectionViewSource jointValuesViewSource1 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("jointValuesViewSource1")));
-            //jointValuesViewSource1.View.MoveCurrentToFirst();
         }
 
         // Since the timer resolution defaults to about 10ms precisely, we need to
@@ -501,7 +544,7 @@ namespace Kinect_D2_v1
             valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
 
             //Setting data for column chart
-            columnChart.DataContext = valueList;
+            //columnChart.DataContext = valueList;
 
         }
         #endregion data transformation
@@ -514,8 +557,8 @@ namespace Kinect_D2_v1
 
             //var tmpRawData = from r in ent.RawDatas select r;
             ent.RawDatas.Load();
-            columnChart.DataContext = ent.RawDatas.Local;
-            columnChart.UpdateLayout();
+            //columnChart.DataContext = ent.RawDatas.Local;
+            //columnChart.UpdateLayout();
         }
 
         private void Button_StartRecording(object sender, RoutedEventArgs e)

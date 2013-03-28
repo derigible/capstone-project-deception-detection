@@ -25,7 +25,12 @@ namespace Kinect_D2_v1
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<JointValue> JointValues { get; set; }
         public DbSet<RawData> RawDatas { get; set; }
+        public DbSet<Condition> Conditions { get; set; }
+        public DbSet<Experiment> Experiments { get; set; }
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<Participant> Participants { get; set; }
+        public DbSet<Participant_condition> Participant_condition { get; set; }
+        public DbSet<Tag> Tags { get; set; }
     }
 }

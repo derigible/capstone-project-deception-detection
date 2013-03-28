@@ -5,7 +5,7 @@
         x:Class="Kinect_D2_v1.MainWindow"
         xmlns:toolkit="clr-namespace:Microsoft.Kinect.Toolkit;assembly=Microsoft.Kinect.Toolkit"
         xmlns:kt="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers"
-        Title="Deception Basic" Height="724" Width="1096" Loaded="WindowLoaded" Closing="WindowClosing">
+        Title="Deception Detection - Capture" Height="724" Width="1096" Loaded="WindowLoaded" Closing="WindowClosing" Icon="Images/video.png">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -53,8 +53,6 @@
             </Style>
         </ResourceDictionary>  
     </Window.Resources>
-    <TabControl Margin="3,3,12,12">
-        <TabItem x:Name="VideoPlaybackTab" Header="Video Playback">
             <Grid x:Name="layoutGrid" Margin="0,0,2,-4" Height="765" VerticalAlignment="Top">
                 <Grid.RowDefinitions>
                     <!-- The title bar -->
@@ -118,12 +116,11 @@
                 <Grid Grid.Row="2" Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"
               Margin="10,10,10,0"
               VerticalAlignment="Top" Height="121">
-                    <CheckBox x:Name="skeletonCheckBox" Content="Skeleton" Margin="10,10,10,0" VerticalAlignment="Top" Height="23"/>
-                    <CheckBox x:Name="videoCheckBox" Content="Video" Margin="10,38,10,0" VerticalAlignment="Top" RenderTransformOrigin="-0.456,-1.625" Height="22"/>
-                    <CheckBox x:Name="audioCheckBox" Content="Audio" Margin="10,65,10,0" VerticalAlignment="Top" Height="24"/>
-                    <Button x:Name="saveToDatabaseButton" Content="Save To Database" HorizontalAlignment="Left" Margin="231,99,0,0" VerticalAlignment="Top" Width="133" Click="Button_SaveToDatabase" Height="22"/>
-                    <Button x:Name="startRecordingButton" Content="Start Recording" HorizontalAlignment="Left" Margin="33,99,0,0" VerticalAlignment="Top" Width="133" Click="Button_StartRecording" Height="22"/>
-                </Grid>
+            <Button x:Name="startStop" Margin="220,10,221,31" Click="Button_Start_Stop">
+                <Image x:Name="imgStartStop" Source="/Images/record.png" Height="50" Width="54" />
+            </Button>
+            <Button x:Name="replayVideoScreenButton" Content="Replay a Video" HorizontalAlignment="Left" Margin="493,37,0,0" VerticalAlignment="Top" Width="120" Height="42" Click="openReplay"/>
+        </Grid>
                 <Grid Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Top" Height="75">
                     <DockPanel Margin="10 0 10 20">
                         <CheckBox x:Name="checkBoxSeatedMode" Content="Seated Mode" HorizontalAlignment="Left" Margin="0,13,0,26" Width="121"/>
@@ -138,6 +135,4 @@
                     <kt:KinectSettings KinectSensorManager="{Binding KinectSensorManager}" DepthTreatment="{Binding DepthTreatment, Mode=TwoWay}" Margin="0 20 0 0" SnapsToDevicePixels="True"/>
                 </Grid>
             </Grid>
-        </TabItem>
-    </TabControl>
 </Window>

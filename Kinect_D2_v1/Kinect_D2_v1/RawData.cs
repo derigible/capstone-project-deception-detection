@@ -76,5 +76,8 @@ namespace Kinect_D2_v1
         public Nullable<double> FootRight_X { get; set; }
         public Nullable<double> FootRight_Y { get; set; }
         public Nullable<double> FootRight_Z { get; set; }
+        public Nullable<long> participant_condition_id { get; set; }
+    
+        public virtual Participant_condition Participant_condition { get; set; }
     }
 }

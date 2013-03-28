@@ -12,11 +12,15 @@ namespace Kinect_D2_v1
     using System;
     using System.Collections.Generic;
     
-    public partial class JointValue
+    public partial class Feature
     {
-        public long id { get; set; }
-        public Nullable<double> xValue { get; set; }
-        public Nullable<double> yValue { get; set; }
-        public Nullable<double> zValue { get; set; }
+        public long feature_id { get; set; }
+        public Nullable<long> tag_id { get; set; }
+        public Nullable<System.DateTime> start_timestamp { get; set; }
+        public Nullable<System.DateTime> end_timestamp { get; set; }
+        public Nullable<long> participant_condition_id { get; set; }
+    
+        public virtual Tag Tag { get; set; }
+        public virtual Participant_condition Participant_condition { get; set; }
     }
 }

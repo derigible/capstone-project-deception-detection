@@ -22,6 +22,8 @@ namespace Kinect_D2_v1
     using System.Runtime.InteropServices;
     using System;
     using System.ComponentModel;
+    using System.Drawing.Imaging;
+    using System.Windows.Media.Imaging;
     
 
     /// <summary>
@@ -98,6 +100,10 @@ namespace Kinect_D2_v1
         private readonly KinectSensorChooser sensorChooser = new KinectSensorChooser();
 
         private readonly KinectWindowViewModel viewModel;
+
+        private KinectRecorder record;
+        private FileStream colorStreamFile;
+        private List<System.Drawing.Bitmap> bitmaps = new List<System.Drawing.Bitmap>();
 
         //this is needed in order to clear out and stop the sensor
         //BackgroundWorker bw = new BackgroundWorker();
@@ -206,6 +212,7 @@ namespace Kinect_D2_v1
             kinectSensorManager.ColorStreamEnabled = true;
 
             sensor.SkeletonFrameReady += this.SkeletonsReady;
+            sensor.ColorFrameReady += this.ColorStreamReady;
             kinectSensorManager.TransformSmoothParameters = new TransformSmoothParameters
             {
                 Smoothing = 0.5f,
@@ -223,8 +230,40 @@ namespace Kinect_D2_v1
         private void UninitializeKinectServices(KinectSensor sensor)
         {
             sensor.SkeletonFrameReady -= this.SkeletonsReady;
+            sensor.ColorFrameReady -= this.ColorStreamReady;
         }
 
+        private void ColorStreamReady(object sender, ColorImageFrameReadyEventArgs e)
+        {
+            using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
+            {
+                if (colorFrame != null)
+                {
+                    byte[] bytes = new byte[colorFrame.PixelDataLength];
+                    colorFrame.CopyPixelDataTo(bytes);
+
+                    System.Drawing.Bitmap bmap = new System.Drawing.Bitmap(colorFrame.Width, colorFrame.Height, 
+                        System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                    BitmapData bmapdata = bmap.LockBits(
+                        new System.Drawing.Rectangle(0, 0, colorFrame.Width, colorFrame.Height),
+                        ImageLockMode.WriteOnly,
+                        bmap.PixelFormat);
+                    IntPtr ptr = bmapdata.Scan0;
+                    Marshal.Copy(bytes, 0, ptr, colorFrame.PixelDataLength);
+                    bmap.UnlockBits(bmapdata);
+                    bitmaps.Add(bmap);
+                }
+            }
+        }
+
+        public static System.Drawing.Bitmap BytesToBitmap(byte[] byteArray)
+        {
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                System.Drawing.Bitmap img = (System.Drawing.Bitmap)System.Drawing.Image.FromStream(ms);
+                return img;
+            }
+        }
 
         private void SkeletonsReady(object sender, SkeletonFrameReadyEventArgs e)
         {
@@ -533,35 +572,31 @@ namespace Kinect_D2_v1
             }
 
         }
-
-        private void showColumnChart()
-        {
-            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
-            valueList.Add(new KeyValuePair<string, int>("Developer", 60));
-            valueList.Add(new KeyValuePair<string, int>("Misc", 20));
-            valueList.Add(new KeyValuePair<string, int>("Tester", 50));
-            valueList.Add(new KeyValuePair<string, int>("QA", 30));
-            valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
-
-            //Setting data for column chart
-            //columnChart.DataContext = valueList;
-
-        }
         #endregion data transformation
 
         #region button actions
+        private Boolean clicked = false;
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_Start_Stop(object sender, RoutedEventArgs e)
         {
-            KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
+            if (!clicked)
+            {
+                startRecording();
+                var uriSource = new Uri(@"/Kinect_D2_v1;component/Images/stop.png", UriKind.Relative);
+                this.imgStartStop.Source = new BitmapImage(uriSource);
+                clicked = true;
 
-            //var tmpRawData = from r in ent.RawDatas select r;
-            ent.RawDatas.Load();
-            //columnChart.DataContext = ent.RawDatas.Local;
-            //columnChart.UpdateLayout();
+            }
+            else
+            {
+                stopRecording();
+                var uriSource = new Uri(@"/Kinect_D2_v1;component/Images/record.png", UriKind.Relative);
+                this.imgStartStop.Source = new BitmapImage(uriSource);
+                clicked = false;
+            }
         }
 
-        private void Button_StartRecording(object sender, RoutedEventArgs e)
+        private void startRecording()
         {
             sensorChooser.Start();
 
@@ -569,19 +604,24 @@ namespace Kinect_D2_v1
             var kinectSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
             BindingOperations.SetBinding(this.KinectSensorManager, KinectSensorManager.KinectSensorProperty, kinectSensorBinding);
 
-            
-            if (null == sensorChooser.Kinect)
-            {
-                this.statusBarText.Text = Properties.Resources.NoKinectReady;
-            }
-
             //Create an entity version
             //vals = new Kinect_D2_v1.KinectDatabaseEntities1().Set<JointValue>();
             raw = new Kinect_D2_v1.KinectDatabaseEntities1().Set<RawData>();
 
+
+            if (null == sensorChooser.Kinect)
+            {
+                this.statusBarText.Text = Properties.Resources.KinectNotFound;
+            }
+            else
+            {
+                colorStreamFile = File.Create(@"C:\Users\Marc\Desktop\color.txt");
+                Console.Write(colorStreamFile.Name);
+                this.statusBarText.Text = Properties.Resources.KinectRecording;
+            }
         }
 
-        private void Button_SaveToDatabase(object sender, RoutedEventArgs e)
+        private void stopRecording()
         {
             if (null != this.sensorChooser.Kinect)
             {
@@ -590,6 +630,8 @@ namespace Kinect_D2_v1
                 this.sensorChooser.Stop();
 
                 MessageBox.Show("Sensor Stopped");
+
+                this.statusBarText.Text = Properties.Resources.KinectOutPutToDatabase;
 
                 KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
                 foreach (RawData rawdata in raw.Local)
@@ -604,7 +646,23 @@ namespace Kinect_D2_v1
             {
                 MessageBox.Show("No Kinect Detected.");
             }
+            this.statusBarText.Text = Properties.Resources.KinectFound;
         }
         #endregion button actions
+
+        private void openReplay(object sender, RoutedEventArgs e)
+        {
+            WriteAvi write = new WriteAvi();
+            write.testWrite(bitmaps);
+            //if (this.sensorChooser != null)
+            //{
+            //    ReplayWindow replay = new ReplayWindow(640, 480);
+            //    replay.Show();
+            //}
+            //else
+            //{
+            //    this.statusBarText.Text = Properties.Resources.KinectNotFound;
+            //}
+        }
     }
 }

@@ -93,10 +93,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Condition.constrcutors.cs" />
     <Compile Include="Condition.cs">
       <DependentUpon>KinectEntities.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Experiment.constructors.cs" />
     <Compile Include="Experiment.cs">
       <DependentUpon>KinectEntities.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -110,9 +112,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="KinectHelper.cs" />
-    <Compile Include="LaunchWindow.xaml.cs">
-      <DependentUpon>LaunchWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Participant.cs">
       <DependentUpon>KinectEntities.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -160,10 +159,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ExportWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LaunchWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,7 +283,7 @@
     <Resource Include="Images\stop.png" />
     <Resource Include="Images\arrow-left.png" />
     <Content Include="KinectDatabase.sdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

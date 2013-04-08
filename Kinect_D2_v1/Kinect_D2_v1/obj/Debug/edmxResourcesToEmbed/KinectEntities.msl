@@ -1,19 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="KinectDatabaseModelStoreContainer" CdmEntityContainer="KinectDatabaseEntities1">
-    <EntitySetMapping Name="JointValues">
-      <EntityTypeMapping TypeName="KinectDatabaseModel.JointValue">
-        <MappingFragment StoreEntitySet="JointValues">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="xValue" ColumnName="xValue" />
-          <ScalarProperty Name="yValue" ColumnName="yValue" />
-          <ScalarProperty Name="zValue" ColumnName="zValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="RawDatas">
       <EntityTypeMapping TypeName="KinectDatabaseModel.RawData">
         <MappingFragment StoreEntitySet="RawData">
+          <ScalarProperty Name="participant_condition_id" ColumnName="participant_condition_id" />
           <ScalarProperty Name="FootRight_Z" ColumnName="FootRight_Z" />
           <ScalarProperty Name="FootRight_Y" ColumnName="FootRight_Y" />
           <ScalarProperty Name="FootRight_X" ColumnName="FootRight_X" />
@@ -76,6 +67,69 @@
           <ScalarProperty Name="Head_X" ColumnName="Head_X" />
           <ScalarProperty Name="timestamp" ColumnName="timestamp" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Conditions">
+      <EntityTypeMapping TypeName="KinectDatabaseModel.Condition">
+        <MappingFragment StoreEntitySet="Condition">
+          <ScalarProperty Name="experiment_id" ColumnName="experiment_id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="condition_id" ColumnName="condition_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Experiments">
+      <EntityTypeMapping TypeName="KinectDatabaseModel.Experiment">
+        <MappingFragment StoreEntitySet="Experiment">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="experiment_id" ColumnName="experiment_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Features">
+      <EntityTypeMapping TypeName="KinectDatabaseModel.Feature">
+        <MappingFragment StoreEntitySet="Features">
+          <ScalarProperty Name="participant_condition_id" ColumnName="participant_condition_id" />
+          <ScalarProperty Name="end_timestamp" ColumnName="end_timestamp" />
+          <ScalarProperty Name="start_timestamp" ColumnName="start_timestamp" />
+          <ScalarProperty Name="tag_id" ColumnName="tag_id" />
+          <ScalarProperty Name="feature_id" ColumnName="feature_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Participants">
+      <EntityTypeMapping TypeName="KinectDatabaseModel.Participant">
+        <MappingFragment StoreEntitySet="Participant">
+          <ScalarProperty Name="zip" ColumnName="zip" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="address_line_2" ColumnName="address_line_2" />
+          <ScalarProperty Name="address_line_1" ColumnName="address_line_1" />
+          <ScalarProperty Name="phone_num" ColumnName="phone_num" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="participant_id" ColumnName="participant_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Participant_condition">
+      <EntityTypeMapping TypeName="KinectDatabaseModel.Participant_condition">
+        <MappingFragment StoreEntitySet="Participant_condition">
+          <ScalarProperty Name="participant_id" ColumnName="participant_id" />
+          <ScalarProperty Name="condition_id" ColumnName="condition_id" />
+          <ScalarProperty Name="participant_condition_id" ColumnName="participant_condition_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="KinectDatabaseModel.Tag">
+        <MappingFragment StoreEntitySet="Tag">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="tag_id" ColumnName="tag_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

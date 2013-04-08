@@ -1,18 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="KinectDatabaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="KinectDatabaseEntities1" p1:LazyLoadingEnabled="true">
-    <EntitySet Name="JointValues" EntityType="KinectDatabaseModel.JointValue" />
     <EntitySet Name="RawDatas" EntityType="KinectDatabaseModel.RawData" />
+    <EntitySet Name="Conditions" EntityType="KinectDatabaseModel.Condition" />
+    <EntitySet Name="Experiments" EntityType="KinectDatabaseModel.Experiment" />
+    <EntitySet Name="Features" EntityType="KinectDatabaseModel.Feature" />
+    <EntitySet Name="Participants" EntityType="KinectDatabaseModel.Participant" />
+    <EntitySet Name="Participant_condition" EntityType="KinectDatabaseModel.Participant_condition" />
+    <EntitySet Name="Tags" EntityType="KinectDatabaseModel.Tag" />
+    <AssociationSet Name="Condition_Experiment" Association="KinectDatabaseModel.Condition_Experiment">
+      <End Role="Experiment" EntitySet="Experiments" />
+      <End Role="Condition" EntitySet="Conditions" />
+    </AssociationSet>
+    <AssociationSet Name="Participant_Condition_Condition" Association="KinectDatabaseModel.Participant_Condition_Condition">
+      <End Role="Condition" EntitySet="Conditions" />
+      <End Role="Participant_condition" EntitySet="Participant_condition" />
+    </AssociationSet>
+    <AssociationSet Name="Tag_of_Feature" Association="KinectDatabaseModel.Tag_of_Feature">
+      <End Role="Tag" EntitySet="Tags" />
+      <End Role="Feature" EntitySet="Features" />
+    </AssociationSet>
+    <AssociationSet Name="Participant_Condition_Participant" Association="KinectDatabaseModel.Participant_Condition_Participant">
+      <End Role="Participant" EntitySet="Participants" />
+      <End Role="Participant_condition" EntitySet="Participant_condition" />
+    </AssociationSet>
+    <AssociationSet Name="Participant_Condition1" Association="KinectDatabaseModel.Participant_Condition1">
+      <End Role="Participant_condition" EntitySet="Participant_condition" />
+      <End Role="RawData" EntitySet="RawDatas" />
+    </AssociationSet>
+    <AssociationSet Name="participant_condition_feature" Association="KinectDatabaseModel.participant_condition_feature">
+      <End Role="Participant_condition" EntitySet="Participant_condition" />
+      <End Role="Feature" EntitySet="Features" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="JointValue">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int64" Nullable="false" />
-    <Property Name="xValue" Type="Double" />
-    <Property Name="yValue" Type="Double" />
-    <Property Name="zValue" Type="Double" />
-  </EntityType>
   <EntityType Name="RawData">
     <Key>
       <PropertyRef Name="ID" />
@@ -79,5 +99,147 @@
     <Property Type="Double" Name="FootRight_X" />
     <Property Type="Double" Name="FootRight_Y" />
     <Property Type="Double" Name="FootRight_Z" />
+    <Property Type="Int64" Name="participant_condition_id" />
+    <NavigationProperty Name="Participant_condition" Relationship="KinectDatabaseModel.Participant_Condition1" FromRole="RawData" ToRole="Participant_condition" />
   </EntityType>
+  <EntityType Name="Condition">
+    <Key>
+      <PropertyRef Name="condition_id" />
+    </Key>
+    <Property Type="Int64" Name="condition_id" Nullable="false" />
+    <Property Type="String" Name="code" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="description" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Int64" Name="experiment_id" Nullable="false" />
+    <NavigationProperty Name="Experiment" Relationship="KinectDatabaseModel.Condition_Experiment" FromRole="Condition" ToRole="Experiment" />
+    <NavigationProperty Name="Participant_condition" Relationship="KinectDatabaseModel.Participant_Condition_Condition" FromRole="Condition" ToRole="Participant_condition" />
+  </EntityType>
+  <EntityType Name="Experiment">
+    <Key>
+      <PropertyRef Name="experiment_id" />
+    </Key>
+    <Property Type="Int64" Name="experiment_id" Nullable="false" />
+    <Property Type="String" Name="name" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Conditions" Relationship="KinectDatabaseModel.Condition_Experiment" FromRole="Experiment" ToRole="Condition" />
+  </EntityType>
+  <EntityType Name="Feature">
+    <Key>
+      <PropertyRef Name="feature_id" />
+    </Key>
+    <Property Type="Int64" Name="feature_id" Nullable="false" />
+    <Property Type="Int64" Name="tag_id" />
+    <Property Type="DateTime" Name="start_timestamp" Precision="3" />
+    <Property Type="DateTime" Name="end_timestamp" Precision="3" />
+    <NavigationProperty Name="Tag" Relationship="KinectDatabaseModel.Tag_of_Feature" FromRole="Feature" ToRole="Tag" />
+    <Property Type="Int64" Name="participant_condition_id" />
+    <NavigationProperty Name="Participant_condition" Relationship="KinectDatabaseModel.participant_condition_feature" FromRole="Feature" ToRole="Participant_condition" />
+  </EntityType>
+  <EntityType Name="Participant">
+    <Key>
+      <PropertyRef Name="participant_id" />
+    </Key>
+    <Property Type="Int64" Name="participant_id" Nullable="false" />
+    <Property Type="String" Name="code" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="first_name" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="last_name" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="email" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="phone_num" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="address_line_1" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="address_line_2" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="city" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="state" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="zip" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Participant_condition" Relationship="KinectDatabaseModel.Participant_Condition_Participant" FromRole="Participant" ToRole="Participant_condition" />
+  </EntityType>
+  <EntityType Name="Participant_condition">
+    <Key>
+      <PropertyRef Name="participant_condition_id" />
+    </Key>
+    <Property Type="Int64" Name="participant_condition_id" Nullable="false" />
+    <Property Type="Int64" Name="condition_id" Nullable="false" />
+    <Property Type="Int64" Name="participant_id" Nullable="false" />
+    <NavigationProperty Name="Condition" Relationship="KinectDatabaseModel.Participant_Condition_Condition" FromRole="Participant_condition" ToRole="Condition" />
+    <NavigationProperty Name="Participant" Relationship="KinectDatabaseModel.Participant_Condition_Participant" FromRole="Participant_condition" ToRole="Participant" />
+    <NavigationProperty Name="RawDatas" Relationship="KinectDatabaseModel.Participant_Condition1" FromRole="Participant_condition" ToRole="RawData" />
+    <NavigationProperty Name="Features" Relationship="KinectDatabaseModel.participant_condition_feature" FromRole="Participant_condition" ToRole="Feature" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="tag_id" />
+    </Key>
+    <Property Type="Int64" Name="tag_id" Nullable="false" />
+    <Property Type="String" Name="description" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Features" Relationship="KinectDatabaseModel.Tag_of_Feature" FromRole="Tag" ToRole="Feature" />
+  </EntityType>
+  <Association Name="Condition_Experiment">
+    <End Type="KinectDatabaseModel.Experiment" Role="Experiment" Multiplicity="1" />
+    <End Type="KinectDatabaseModel.Condition" Role="Condition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Experiment">
+        <PropertyRef Name="experiment_id" />
+      </Principal>
+      <Dependent Role="Condition">
+        <PropertyRef Name="experiment_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Participant_Condition_Condition">
+    <End Type="KinectDatabaseModel.Condition" Role="Condition" Multiplicity="1" />
+    <End Type="KinectDatabaseModel.Participant_condition" Role="Participant_condition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Condition">
+        <PropertyRef Name="condition_id" />
+      </Principal>
+      <Dependent Role="Participant_condition">
+        <PropertyRef Name="condition_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Tag_of_Feature">
+    <End Type="KinectDatabaseModel.Tag" Role="Tag" Multiplicity="0..1" />
+    <End Type="KinectDatabaseModel.Feature" Role="Feature" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="tag_id" />
+      </Principal>
+      <Dependent Role="Feature">
+        <PropertyRef Name="tag_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Participant_Condition_Participant">
+    <End Type="KinectDatabaseModel.Participant" Role="Participant" Multiplicity="1" />
+    <End Type="KinectDatabaseModel.Participant_condition" Role="Participant_condition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Participant">
+        <PropertyRef Name="participant_id" />
+      </Principal>
+      <Dependent Role="Participant_condition">
+        <PropertyRef Name="participant_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Participant_Condition1">
+    <End Type="KinectDatabaseModel.Participant_condition" Role="Participant_condition" Multiplicity="0..1" />
+    <End Type="KinectDatabaseModel.RawData" Role="RawData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Participant_condition">
+        <PropertyRef Name="participant_condition_id" />
+      </Principal>
+      <Dependent Role="RawData">
+        <PropertyRef Name="participant_condition_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="participant_condition_feature">
+    <End Type="KinectDatabaseModel.Participant_condition" Role="Participant_condition" Multiplicity="0..1" />
+    <End Type="KinectDatabaseModel.Feature" Role="Feature" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Participant_condition">
+        <PropertyRef Name="participant_condition_id" />
+      </Principal>
+      <Dependent Role="Feature">
+        <PropertyRef Name="participant_condition_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

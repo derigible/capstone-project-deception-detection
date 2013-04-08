@@ -47,12 +47,10 @@ D:\Individuals\Tom\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\Kinect_D
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\Kinect_D2_v1.csprojResolveAssemblyReference.cache
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\ExperimentWindow.baml
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\ExportWindow.baml
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\LaunchWindow.baml
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\PartWindow.baml
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\TagsWindow.baml
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\ExperimentWindow.g.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\ExportWindow.g.cs
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\LaunchWindow.g.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\MainWindow.g.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\PartWindow.g.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\TagsWindow.g.cs

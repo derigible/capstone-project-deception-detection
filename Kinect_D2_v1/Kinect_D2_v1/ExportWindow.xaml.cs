@@ -39,7 +39,7 @@ namespace Kinect_D2_v1
                                        "FootLeft_Z ", "KneeRight_X ", "KneeRight_Y ", "KneeRight_Z ", "AnkleRight_X ",
                                        "AnkleRight_Y ", "AnkleRight_Z ", "FootRight_X ", "FootRight_Y ", "FootRight_Z "};
 
-        public ExportWindow()
+        public ExportWindow(Experiment ex)
         {
             InitializeComponent();
 

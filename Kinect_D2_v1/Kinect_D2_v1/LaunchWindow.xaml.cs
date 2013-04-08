@@ -21,6 +21,17 @@ namespace Kinect_D2_v1
     /// </summary>
     public partial class LaunchWindow : Window
     {
-        
+
+        private void open_export_window_Click(object sender, RoutedEventArgs e)
+        {
+            ExportWindow export = new ExportWindow();
+            export.Show();
+        }
+
+        private void open_experiments_window_Click(object sender, RoutedEventArgs e)
+        {
+            ExperimentWindow exp = new ExperimentWindow();
+            exp.Show();
+        }
     }
 }

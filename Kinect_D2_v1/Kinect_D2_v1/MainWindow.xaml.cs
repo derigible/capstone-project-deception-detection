@@ -101,16 +101,11 @@ namespace Kinect_D2_v1
 
         private readonly KinectWindowViewModel viewModel;
 
-        private KinectRecorder record;
-        private FileStream colorStreamFile;
-        private List<System.Drawing.Bitmap> bitmaps = new List<System.Drawing.Bitmap>();
+        private KinectHelper helpMe = new KinectHelper();
 
-        //this is needed in order to clear out and stop the sensor
-        //BackgroundWorker bw = new BackgroundWorker();
+        private Participant_condition pc;
 
-        //Kinect_D2_v1.KinectDatabaseDataSet1TableAdapters.JointValuesTableAdapter kinectDatabaseDataSet1JointValuesTableAdapter;
-        //DbSet<JointValue> vals;
-        DbSet<RawData> raw;
+        private DbSet<Participant_condition> pConditions = new Kinect_D2_v1.KinectDatabaseEntities1().Set<Participant_condition>();
 
         public static readonly DependencyProperty KinectSensorManagerProperty =
             DependencyProperty.Register(
@@ -144,9 +139,14 @@ namespace Kinect_D2_v1
             this.DataContext = this.viewModel;
 
             InitializeComponent();
-            //showColumnChart();
 
             this.SensorChooserUI.KinectSensorChooser = sensorChooser;
+        }
+
+        public void addParticipantCondition(Participant_condition pc)
+        {
+            this.pc = pc;
+            pConditions.Add(pc);
         }
 
         /// <summary>
@@ -235,34 +235,7 @@ namespace Kinect_D2_v1
 
         private void ColorStreamReady(object sender, ColorImageFrameReadyEventArgs e)
         {
-            using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
-            {
-                if (colorFrame != null)
-                {
-                    byte[] bytes = new byte[colorFrame.PixelDataLength];
-                    colorFrame.CopyPixelDataTo(bytes);
-
-                    System.Drawing.Bitmap bmap = new System.Drawing.Bitmap(colorFrame.Width, colorFrame.Height, 
-                        System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-                    BitmapData bmapdata = bmap.LockBits(
-                        new System.Drawing.Rectangle(0, 0, colorFrame.Width, colorFrame.Height),
-                        ImageLockMode.WriteOnly,
-                        bmap.PixelFormat);
-                    IntPtr ptr = bmapdata.Scan0;
-                    Marshal.Copy(bytes, 0, ptr, colorFrame.PixelDataLength);
-                    bmap.UnlockBits(bmapdata);
-                    bitmaps.Add(bmap);
-                }
-            }
-        }
-
-        public static System.Drawing.Bitmap BytesToBitmap(byte[] byteArray)
-        {
-            using (MemoryStream ms = new MemoryStream(byteArray))
-            {
-                System.Drawing.Bitmap img = (System.Drawing.Bitmap)System.Drawing.Image.FromStream(ms);
-                return img;
-            }
+            this.helpMe.addColorStream(e.OpenColorImageFrame());
         }
 
         private void SkeletonsReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -291,8 +264,7 @@ namespace Kinect_D2_v1
                             if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
                             {
                                 this.DrawBonesAndJoints(skeleton, dc);
-                                this.SaveSkeletonToRaw(skeletons);
-
+                                this.helpMe.saveSkeletonToRaw(skeletons);
                             }
                             else if (skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
                             {
@@ -308,7 +280,6 @@ namespace Kinect_D2_v1
                 }
             }
         }
-
 
         #endregion kinect management
 
@@ -365,15 +336,7 @@ namespace Kinect_D2_v1
 
             // Create an image source that we can use in our image control
             this.imageSource = new DrawingImage(this.drawingGroup);
-
-
         }
-
-        // Since the timer resolution defaults to about 10ms precisely, we need to
-        // increase the resolution to get framerates above between 50fps with any
-        // consistency.
-        [DllImport("Winmm.dll", EntryPoint = "timeBeginPeriod")]
-        private static extern int TimeBeginPeriod(uint period);
 
         /// <summary>
         /// Execute shutdown tasks
@@ -415,14 +378,6 @@ namespace Kinect_D2_v1
             {
                 // Draw a transparent background to set the render size
                 dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
-
-                if (skeletons.Length != 0)
-                {
-                    foreach (Skeleton skel in skeletons)
-                    {
-                        
-                    }
-                }
 
                 // prevent drawing outside of our render area
                 this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight));
@@ -484,7 +439,6 @@ namespace Kinect_D2_v1
                     drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), JointThickness, JointThickness);
                 }
             }
-
         }
 
         /// <summary>
@@ -557,23 +511,6 @@ namespace Kinect_D2_v1
         }
         #endregion render Skeleton
 
-        #region data transformation
-
-        private void SaveSkeletonToRaw(Skeleton[] skeletons)
-        {
-            foreach (Skeleton skel in skeletons)
-            {
-                if (skel.TrackingState == SkeletonTrackingState.Tracked)
-                {
-                    RawData tmp = new RawData();
-                    tmp.SetJoints(skel.Joints);
-                    raw.Add(tmp);
-                }
-            }
-
-        }
-        #endregion data transformation
-
         #region button actions
         private Boolean clicked = false;
 
@@ -605,9 +542,7 @@ namespace Kinect_D2_v1
             BindingOperations.SetBinding(this.KinectSensorManager, KinectSensorManager.KinectSensorProperty, kinectSensorBinding);
 
             //Create an entity version
-            //vals = new Kinect_D2_v1.KinectDatabaseEntities1().Set<JointValue>();
-            raw = new Kinect_D2_v1.KinectDatabaseEntities1().Set<RawData>();
-
+            helpMe.createDatabase();
 
             if (null == sensorChooser.Kinect)
             {
@@ -615,8 +550,6 @@ namespace Kinect_D2_v1
             }
             else
             {
-                colorStreamFile = File.Create(@"C:\Users\Marc\Desktop\color.txt");
-                Console.Write(colorStreamFile.Name);
                 this.statusBarText.Text = Properties.Resources.KinectRecording;
             }
         }
@@ -633,13 +566,8 @@ namespace Kinect_D2_v1
 
                 this.statusBarText.Text = Properties.Resources.KinectOutPutToDatabase;
 
-                KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
-                foreach (RawData rawdata in raw.Local)
-                {
-                    ent.RawDatas.Add(rawdata);
-                }
-                //ent.RawDatas = raw;
-                ent.SaveChanges();
+                helpMe.saveToDatabase(pc);
+
                 MessageBox.Show("Records saved to database");
             }
             else
@@ -652,17 +580,7 @@ namespace Kinect_D2_v1
 
         private void openReplay(object sender, RoutedEventArgs e)
         {
-            WriteAvi write = new WriteAvi();
-            write.testWrite(bitmaps);
-            //if (this.sensorChooser != null)
-            //{
-            //    ReplayWindow replay = new ReplayWindow(640, 480);
-            //    replay.Show();
-            //}
-            //else
-            //{
-            //    this.statusBarText.Text = Properties.Resources.KinectNotFound;
-            //}
+            helpMe.writeVideoReplay("test.avi");
         }
     }
 }

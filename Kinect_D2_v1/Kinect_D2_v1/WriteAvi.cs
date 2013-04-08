@@ -10,15 +10,13 @@ namespace Kinect_D2_v1
 {
     class WriteAvi
     {
-        public void testWrite(List<System.Drawing.Bitmap> bitmaps){
+        public void testWrite(List<System.Drawing.Bitmap> bitmaps, String fileName){
             //load the first image
             Bitmap bm = bitmaps[0];
             //create a new AVI file
-            AviManager aviManager =
-                new AviManager("new.avi", false);
+            AviManager aviManager = new AviManager(fileName, false);
             //add a new video stream and one frame to the new file
-            VideoStream aviStream =
-                aviManager.AddVideoStream(true, 2, bm);
+            VideoStream aviStream = aviManager.AddVideoStream(true, 2, bm);
             int count = 0;
             foreach(System.Drawing.Bitmap bitmap in bitmaps)
             {

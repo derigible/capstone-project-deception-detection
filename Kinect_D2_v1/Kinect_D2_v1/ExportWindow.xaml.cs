@@ -23,8 +23,7 @@ namespace Kinect_D2_v1
     /// </summary>
     public partial class ExportWindow : Window
     {
-        private DbSet<Participant> participants = new Kinect_D2_v1.KinectDatabaseEntities1().Participants;
-        private DbSet<RawData> rawData = new Kinect_D2_v1.KinectDatabaseEntities1().RawDatas;
+        private KinectDatabaseEntities1 db = new KinectDatabaseEntities1();
         private String[] headers = { "ID", "timestamp ", "Head_X ", "Head_Y ", "Head_Z ", 
                                        "ShoulderCenter_X ", "ShoulderCenter_Y ", "ShoulderCenter_Z ", 
                                        "ShoulderLeft_X ", "ShoulderLeft_Y ", "ShoulderLeft_Z ", "ShoulderRight_X ", 
@@ -43,7 +42,9 @@ namespace Kinect_D2_v1
         {
             InitializeComponent();
 
-            foreach (Participant p in participants)
+
+            //List<Participant_condition> pclist = db.Participant_condition.Where(r => r.condition_id == 
+            foreach (Participant p in db.Participants)
             {
                 this.participants_list.Items.Add(p);
             }
@@ -57,7 +58,7 @@ namespace Kinect_D2_v1
         public void keepSelected(Participant p, ExcelWorksheet worksheet)
         {
             var list = this.data_selection_list.SelectedItems;
-            List<RawData> data_points = (List<RawData>)rawData
+            List<RawData> data_points = (List<RawData>)db.RawDatas
                 .Where<RawData>(r => r.Participant_condition.participant_id == p.participant_id);
             int i = 1;
             foreach( RawData data in data_points)

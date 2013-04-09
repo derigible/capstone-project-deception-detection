@@ -46,8 +46,8 @@ namespace Kinect_D2_v1
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            //MainWindow mainWindow = new MainWindow();
+            //mainWindow.Show();
             Close();
         }
 

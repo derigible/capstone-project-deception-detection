@@ -105,8 +105,6 @@ namespace Kinect_D2_v1
 
         private Participant_condition pc;
 
-        private DbSet<Participant_condition> pConditions = new Kinect_D2_v1.KinectDatabaseEntities1().Set<Participant_condition>();
-
         public static readonly DependencyProperty KinectSensorManagerProperty =
             DependencyProperty.Register(
                 "KinectSensorManager",
@@ -119,8 +117,10 @@ namespace Kinect_D2_v1
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
-        public MainWindow()
+        public MainWindow(Participant_condition pc)
         {
+
+            this.pc = pc;
             this.KinectSensorManager = new KinectSensorManager();
             this.KinectSensorManager.KinectSensorChanged += this.KinectSensorChanged;
             //this.DataContext = this.KinectSensorManager;
@@ -141,12 +141,6 @@ namespace Kinect_D2_v1
             InitializeComponent();
 
             this.SensorChooserUI.KinectSensorChooser = sensorChooser;
-        }
-
-        public void addParticipantCondition(Participant_condition pc)
-        {
-            this.pc = pc;
-            pConditions.Add(pc);
         }
 
         /// <summary>

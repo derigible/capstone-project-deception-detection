@@ -44,11 +44,13 @@ namespace Kinect_D2_v1
             this.displayPInfo((Participant) lstParticipants.SelectedItem);
 
             btnCapture.IsEnabled = true;
+            update.IsEnabled = true;
         }
 
         private void btnCapture_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow captureScreen = new MainWindow();
+            Participant p = (Participant) this.lstParticipants.SelectedItem;
+            MainWindow captureScreen = new MainWindow(p.Participant_condition.First());
             captureScreen.Show();
             Close();
         }
@@ -87,10 +89,18 @@ namespace Kinect_D2_v1
             this.txtZip.Text = p.zip;
             this.txtAddress1.Text = p.address_line_1;
             this.txtAddress2.Text = p.address_line_2;
-            Condition c = (Condition)this.conditionName.SelectedItem;
             List<Participant_condition> pc = p.Participant_condition.Where(r =>
                 r.participant_id == p.participant_id).ToList<Participant_condition>();
-
+            Participant_condition pc1 = pc.First<Participant_condition>();
+            Condition con = pc1.Condition;
+            if (con != null)
+            {
+                this.conditionName.SelectedItem = con;
+            }
+            else
+            {
+                Console.WriteLine("The con was null");
+            }
         }
 
         private void addPInfo(Participant p)
@@ -112,7 +122,12 @@ namespace Kinect_D2_v1
                     p.participant_id,
                     c.condition_id));
             }
-            Console.WriteLine(db.Participant_condition.Count<Participant_condition>());
+            db.SaveChanges();
+        }
+
+        private void update_Click(object sender, RoutedEventArgs e)
+        {
+            this.addPInfo((Participant)this.lstParticipants.SelectedItem);
         }
     }
 }

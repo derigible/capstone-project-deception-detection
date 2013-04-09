@@ -21,9 +21,7 @@
         <Button x:Name="btnOpenExperiment" Content="Open Experiment" HorizontalAlignment="Left" Margin="51,364,0,0" VerticalAlignment="Top" Width="145" Click="click_btnOpenExperiment" Grid.Column="1" IsEnabled="False" Grid.Row="1"/>
         <Button x:Name="btnExport" Content="Export Experiment Data" HorizontalAlignment="Left" Margin="51,391,0,0" VerticalAlignment="Top" Width="145" Grid.Column="1" IsEnabled="False" Grid.Row="1" Click="btnExport_Click"/>
         <Button x:Name="btnBack" HorizontalAlignment="Left" Height="20" Margin="10,0,0,0" VerticalAlignment="Top" Width="20
-                " Click="btnBack_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1">
-            <Image Source="Images\arrow-left.png" RenderTransformOrigin="-3.857,-3.214"/>
-        </Button>
+                " Click="btnBack_Click" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="1"/>
         <ListBox x:Name="lstConditions" Height="94" VerticalAlignment="Top" SelectionChanged="lstConditions_SelectionChanged" Margin="243,179,10,0" Grid.Row="1"/>
         <Label x:Name="lblConditions" Content="Conditions in Experiment" HorizontalAlignment="Left" Margin="243,153,0,0" VerticalAlignment="Top" Grid.Row="1"/>
         <TextBox x:Name="conCode" HorizontalAlignment="Left" Height="23" Margin="97,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" Grid.Row="1" Grid.Column="1"/>
@@ -34,5 +32,6 @@
         <Label Content="Enter Description" Grid.Column="1" HorizontalAlignment="Left" Margin="27,207,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <TextBox x:Name="conDescription" Grid.Column="1" HorizontalAlignment="Left" Height="61" Margin="10,233,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="213"/>
         <Label x:Name="warning" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Experiments" HorizontalAlignment="Left" Margin="10,1,0,0" Grid.Row="1" VerticalAlignment="Top" Width="132"/>
     </Grid>
 </Window>

@@ -103,7 +103,7 @@ namespace Kinect_D2_v1
 
         private KinectHelper helpMe = new KinectHelper();
 
-        private Participant_condition pc;
+        private Participant_Condition pc;
 
         public static readonly DependencyProperty KinectSensorManagerProperty =
             DependencyProperty.Register(
@@ -117,7 +117,7 @@ namespace Kinect_D2_v1
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
-        public MainWindow(Participant_condition pc)
+        public MainWindow(Participant_Condition pc)
         {
 
             this.pc = pc;

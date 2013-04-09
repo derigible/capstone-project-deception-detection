@@ -95,12 +95,27 @@
     </ApplicationDefinition>
     <Compile Include="Condition.constrcutors.cs" />
     <Compile Include="Condition.cs">
-      <DependentUpon>KinectEntities.tt</DependentUpon>
+      <DependentUpon>database.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="database.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>database.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="database.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="database.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>database.edmx</DependentUpon>
     </Compile>
     <Compile Include="Experiment.constructors.cs" />
     <Compile Include="Experiment.cs">
-      <DependentUpon>KinectEntities.tt</DependentUpon>
+      <DependentUpon>database.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="ExperimentWindow.xaml.cs" />
@@ -108,48 +123,28 @@
       <DependentUpon>ExportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Feature.cs">
-      <DependentUpon>KinectEntities.tt</DependentUpon>
+      <DependentUpon>database.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="KinectHelper.cs" />
     <Compile Include="Participant.cs">
-      <DependentUpon>KinectEntities.tt</DependentUpon>
+      <DependentUpon>database.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Participant.modifier.cs" />
     <Compile Include="Participant_condition.constructors.cs" />
-    <Compile Include="Participant_condition.cs">
-      <DependentUpon>KinectEntities.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Include="Participant_Condition.cs">
+      <DependentUpon>database.tt</DependentUpon>
     </Compile>
     <Compile Include="PartWindow.xaml.cs">
       <DependentUpon>PartWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="RawData.constructors.cs" />
-    <Compile Include="RawData.cs">
-      <DependentUpon>KinectEntities.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="KinectEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KinectEntities.Context.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="KinectEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KinectEntities.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="KinectEntities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KinectEntities.edmx</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Compile Include="Raw_Data.cs">
+      <DependentUpon>database.tt</DependentUpon>
     </Compile>
     <Compile Include="Tag.cs">
-      <DependentUpon>KinectEntities.tt</DependentUpon>
+      <DependentUpon>database.tt</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="TagsWindow.xaml.cs" />
@@ -201,27 +196,22 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="KinectEntities.edmx">
+    <EntityDeploy Include="database.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KinectEntities.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LastGenOutput>database.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="KinectEntities.Context.tt">
+    <None Include="database.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KinectEntities.edmx</DependentUpon>
-      <LastGenOutput>KinectEntities.Context.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>database.edmx</DependentUpon>
+      <LastGenOutput>database.Context.cs</LastGenOutput>
     </None>
-    <None Include="KinectEntities.edmx.diagram">
-      <DependentUpon>KinectEntities.edmx</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
+    <None Include="database.edmx.diagram">
+      <DependentUpon>database.edmx</DependentUpon>
     </None>
-    <None Include="KinectEntities.tt">
+    <None Include="database.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KinectEntities.edmx</DependentUpon>
-      <LastGenOutput>KinectEntities.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>database.edmx</DependentUpon>
+      <LastGenOutput>database.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\KinectDatabaseEntities1.datasource" />
@@ -282,7 +272,7 @@
     <Resource Include="Images\record.png" />
     <Resource Include="Images\stop.png" />
     <Resource Include="Images\arrow-left.png" />
-    <Content Include="KinectDatabase.sdf">
+    <Content Include="DeceptionDB.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

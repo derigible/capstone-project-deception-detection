@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DeceptionDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DeceptionDBEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Conditions" EntityType="DeceptionDBModel.Condition" />
+    <EntitySet Name="Experiments" EntityType="DeceptionDBModel.Experiment" />
+    <EntitySet Name="Features" EntityType="DeceptionDBModel.Feature" />
+    <EntitySet Name="Participants" EntityType="DeceptionDBModel.Participant" />
+    <EntitySet Name="Participant_Condition" EntityType="DeceptionDBModel.Participant_Condition" />
+    <EntitySet Name="Raw_Data" EntityType="DeceptionDBModel.Raw_Data" />
+    <EntitySet Name="Tags" EntityType="DeceptionDBModel.Tag" />
+    <AssociationSet Name="experiment_condition" Association="DeceptionDBModel.experiment_condition">
+      <End Role="Experiment" EntitySet="Experiments" />
+      <End Role="Condition" EntitySet="Conditions" />
+    </AssociationSet>
+    <AssociationSet Name="pc___condition" Association="DeceptionDBModel.pc___condition">
+      <End Role="Condition" EntitySet="Conditions" />
+      <End Role="Participant_Condition" EntitySet="Participant_Condition" />
+    </AssociationSet>
+    <AssociationSet Name="feature___pc" Association="DeceptionDBModel.feature___pc">
+      <End Role="Participant_Condition" EntitySet="Participant_Condition" />
+      <End Role="Feature" EntitySet="Features" />
+    </AssociationSet>
+    <AssociationSet Name="tag___feature" Association="DeceptionDBModel.tag___feature">
+      <End Role="Tag" EntitySet="Tags" />
+      <End Role="Feature" EntitySet="Features" />
+    </AssociationSet>
+    <AssociationSet Name="pc___participant" Association="DeceptionDBModel.pc___participant">
+      <End Role="Participant" EntitySet="Participants" />
+      <End Role="Participant_Condition" EntitySet="Participant_Condition" />
+    </AssociationSet>
+    <AssociationSet Name="rawdata___pc" Association="DeceptionDBModel.rawdata___pc">
+      <End Role="Participant_Condition" EntitySet="Participant_Condition" />
+      <End Role="Raw_Data" EntitySet="Raw_Data" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Condition">
+    <Key>
+      <PropertyRef Name="condition_id" />
+    </Key>
+    <Property Name="condition_id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="code" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="experiment_id" Type="Int64" />
+    <NavigationProperty Name="Experiment" Relationship="DeceptionDBModel.experiment_condition" FromRole="Condition" ToRole="Experiment" />
+    <NavigationProperty Name="Participant_Condition" Relationship="DeceptionDBModel.pc___condition" FromRole="Condition" ToRole="Participant_Condition" />
+  </EntityType>
+  <EntityType Name="Experiment">
+    <Key>
+      <PropertyRef Name="experiment_id" />
+    </Key>
+    <Property Name="experiment_id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Conditions" Relationship="DeceptionDBModel.experiment_condition" FromRole="Experiment" ToRole="Condition" />
+  </EntityType>
+  <EntityType Name="Feature">
+    <Key>
+      <PropertyRef Name="feature_id" />
+    </Key>
+    <Property Name="feature_id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="tag_id" Type="Int64" />
+    <Property Name="start_timestamp" Type="DateTime" Precision="3" />
+    <Property Name="end_timestamp" Type="DateTime" Precision="3" />
+    <Property Name="partcipant_condition_id" Type="Int64" />
+    <NavigationProperty Name="Participant_Condition" Relationship="DeceptionDBModel.feature___pc" FromRole="Feature" ToRole="Participant_Condition" />
+    <NavigationProperty Name="Tag" Relationship="DeceptionDBModel.tag___feature" FromRole="Feature" ToRole="Tag" />
+  </EntityType>
+  <EntityType Name="Participant">
+    <Key>
+      <PropertyRef Name="participant_id" />
+    </Key>
+    <Property Name="participant_id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="code" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="fname" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="lname" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="email" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="pnum" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="add_line_1" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="add_line_2" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="city" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="state" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="zip" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Participant_Condition" Relationship="DeceptionDBModel.pc___participant" FromRole="Participant" ToRole="Participant_Condition" />
+  </EntityType>
+  <EntityType Name="Participant_Condition">
+    <Key>
+      <PropertyRef Name="pc_id" />
+    </Key>
+    <Property Name="pc_id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="condition_id" Type="Int64" Nullable="false" />
+    <Property Name="participant_id" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Condition" Relationship="DeceptionDBModel.pc___condition" FromRole="Participant_Condition" ToRole="Condition" />
+    <NavigationProperty Name="Features" Relationship="DeceptionDBModel.feature___pc" FromRole="Participant_Condition" ToRole="Feature" />
+    <NavigationProperty Name="Participant" Relationship="DeceptionDBModel.pc___participant" FromRole="Participant_Condition" ToRole="Participant" />
+    <NavigationProperty Name="Raw_Data" Relationship="DeceptionDBModel.rawdata___pc" FromRole="Participant_Condition" ToRole="Raw_Data" />
+  </EntityType>
+  <EntityType Name="Raw_Data">
+    <Key>
+      <PropertyRef Name="raw_data_id" />
+    </Key>
+    <Property Name="raw_data_id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="timestamp" Type="DateTime" Precision="3" />
+    <Property Name="pc_id" Type="Int64" />
+    <Property Name="Head_X" Type="Double" />
+    <Property Name="Head_Y" Type="Double" />
+    <Property Name="Head_Z" Type="Double" />
+    <Property Name="ShoulderCenter_X" Type="Double" />
+    <Property Name="ShoulderCenter_Y" Type="Double" />
+    <Property Name="ShoulderCenter_Z" Type="Double" />
+    <Property Name="ShoulderLeft_X" Type="Double" />
+    <Property Name="ShoulderLeft_Y" Type="Double" />
+    <Property Name="ShoulderLeft_Z" Type="Double" />
+    <Property Name="ShoulderRight_X" Type="Double" />
+    <Property Name="ShoulderRight_Y" Type="Double" />
+    <Property Name="ShoulderRight_Z" Type="Double" />
+    <Property Name="Spine_X" Type="Double" />
+    <Property Name="Spine_Y" Type="Double" />
+    <Property Name="Spine_Z" Type="Double" />
+    <Property Name="HipCenter_X" Type="Double" />
+    <Property Name="HipCenter_Y" Type="Double" />
+    <Property Name="HipCenter_Z" Type="Double" />
+    <Property Name="HipLeft_X" Type="Double" />
+    <Property Name="HipLeft_Y" Type="Double" />
+    <Property Name="HipLeft_Z" Type="Double" />
+    <Property Name="HipRight_X" Type="Double" />
+    <Property Name="HipRight_Y" Type="Double" />
+    <Property Name="HipRight_Z" Type="Double" />
+    <Property Name="ElbowLeft_X" Type="Double" />
+    <Property Name="ElbowLeft_Y" Type="Double" />
+    <Property Name="ElbowLeft_Z" Type="Double" />
+    <Property Name="ElbowRight_X" Type="Double" />
+    <Property Name="ElbowRight_Y" Type="Double" />
+    <Property Name="ElbowRight_Z" Type="Double" />
+    <Property Name="WristLeft_X" Type="Double" />
+    <Property Name="WristLeft_Y" Type="Double" />
+    <Property Name="WristLeft_Z" Type="Double" />
+    <Property Name="WristRight_X" Type="Double" />
+    <Property Name="WristRight_Y" Type="Double" />
+    <Property Name="WristRight_Z" Type="Double" />
+    <Property Name="HandLeft_X" Type="Double" />
+    <Property Name="HandLeft_Y" Type="Double" />
+    <Property Name="HandLeft_Z" Type="Double" />
+    <Property Name="HandRight_X" Type="Double" />
+    <Property Name="HandRight_Y" Type="Double" />
+    <Property Name="HandRight_Z" Type="Double" />
+    <Property Name="KneeLeft_X" Type="Double" />
+    <Property Name="KneeLeft_Y" Type="Double" />
+    <Property Name="KneeLeft_Z" Type="Double" />
+    <Property Name="KneeRight_X" Type="Double" />
+    <Property Name="KneeRight_Y" Type="Double" />
+    <Property Name="KneeRight_Z" Type="Double" />
+    <Property Name="AnkleLeft_X" Type="Double" />
+    <Property Name="AnkleLeft_Y" Type="Double" />
+    <Property Name="AnkleLeft_Z" Type="Double" />
+    <Property Name="AnkleRight_X" Type="Double" />
+    <Property Name="AnkleRight_Y" Type="Double" />
+    <Property Name="AnkleRight_Z" Type="Double" />
+    <Property Name="FootRight_X" Type="Double" />
+    <Property Name="FootRight_Y" Type="Double" />
+    <Property Name="FootRight_Z" Type="Double" />
+    <Property Name="FootLeft_X" Type="Double" />
+    <Property Name="FootLeft_Y" Type="Double" />
+    <Property Name="FootLeft_Z" Type="Double" />
+    <NavigationProperty Name="Participant_Condition" Relationship="DeceptionDBModel.rawdata___pc" FromRole="Raw_Data" ToRole="Participant_Condition" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="tag_id" />
+    </Key>
+    <Property Name="tag_id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Features" Relationship="DeceptionDBModel.tag___feature" FromRole="Tag" ToRole="Feature" />
+  </EntityType>
+  <Association Name="experiment_condition">
+    <End Role="Experiment" Type="DeceptionDBModel.Experiment" Multiplicity="0..1" />
+    <End Role="Condition" Type="DeceptionDBModel.Condition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Experiment">
+        <PropertyRef Name="experiment_id" />
+      </Principal>
+      <Dependent Role="Condition">
+        <PropertyRef Name="experiment_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="pc___condition">
+    <End Role="Condition" Type="DeceptionDBModel.Condition" Multiplicity="1" />
+    <End Role="Participant_Condition" Type="DeceptionDBModel.Participant_Condition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Condition">
+        <PropertyRef Name="condition_id" />
+      </Principal>
+      <Dependent Role="Participant_Condition">
+        <PropertyRef Name="condition_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="feature___pc">
+    <End Role="Participant_Condition" Type="DeceptionDBModel.Participant_Condition" Multiplicity="0..1" />
+    <End Role="Feature" Type="DeceptionDBModel.Feature" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Participant_Condition">
+        <PropertyRef Name="pc_id" />
+      </Principal>
+      <Dependent Role="Feature">
+        <PropertyRef Name="partcipant_condition_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tag___feature">
+    <End Role="Tag" Type="DeceptionDBModel.Tag" Multiplicity="0..1" />
+    <End Role="Feature" Type="DeceptionDBModel.Feature" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="tag_id" />
+      </Principal>
+      <Dependent Role="Feature">
+        <PropertyRef Name="tag_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="pc___participant">
+    <End Role="Participant" Type="DeceptionDBModel.Participant" Multiplicity="1" />
+    <End Role="Participant_Condition" Type="DeceptionDBModel.Participant_Condition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Participant">
+        <PropertyRef Name="participant_id" />
+      </Principal>
+      <Dependent Role="Participant_Condition">
+        <PropertyRef Name="participant_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="rawdata___pc">
+    <End Role="Participant_Condition" Type="DeceptionDBModel.Participant_Condition" Multiplicity="0..1" />
+    <End Role="Raw_Data" Type="DeceptionDBModel.Raw_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Participant_Condition">
+        <PropertyRef Name="pc_id" />
+      </Principal>
+      <Dependent Role="Raw_Data">
+        <PropertyRef Name="pc_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -16,21 +16,21 @@ namespace Kinect_D2_v1
     {
         public Participant()
         {
-            this.Participant_condition = new HashSet<Participant_condition>();
+            this.Participant_Condition = new HashSet<Participant_Condition>();
         }
     
         public long participant_id { get; set; }
         public string code { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
+        public string fname { get; set; }
+        public string lname { get; set; }
         public string email { get; set; }
-        public string phone_num { get; set; }
-        public string address_line_1 { get; set; }
-        public string address_line_2 { get; set; }
+        public string pnum { get; set; }
+        public string add_line_1 { get; set; }
+        public string add_line_2 { get; set; }
         public string city { get; set; }
         public string state { get; set; }
         public string zip { get; set; }
     
-        public virtual ICollection<Participant_condition> Participant_condition { get; set; }
+        public virtual ICollection<Participant_Condition> Participant_Condition { get; set; }
     }
 }

@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("kinectdatabase.sdf")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("deceptiondb.sdf")]
 
 

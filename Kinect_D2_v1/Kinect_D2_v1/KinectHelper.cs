@@ -12,7 +12,7 @@ namespace Kinect_D2_v1
 {
     class KinectHelper
     {
-        DbSet<RawData> raw;
+        DbSet<Raw_Data> raw;
         private List<System.Drawing.Bitmap> bitmaps = new List<System.Drawing.Bitmap>();
 
         public void addColorStream(ColorImageFrame colorFrame)
@@ -41,7 +41,7 @@ namespace Kinect_D2_v1
             {
                 if (skel.TrackingState == SkeletonTrackingState.Tracked)
                 {
-                    RawData tmp = new RawData();
+                    Raw_Data tmp = new Raw_Data();
                     tmp.SetJoints(skel.Joints);
                     raw.Add(tmp);
                 }
@@ -50,16 +50,16 @@ namespace Kinect_D2_v1
 
         public void createDatabase()
         {
-            raw = new Kinect_D2_v1.KinectDatabaseEntities1().Set<RawData>();
+            raw = new Kinect_D2_v1.DeceptionDBEntities().Set<Raw_Data>();
         }
 
-        public void saveToDatabase(Participant_condition pc)
+        public void saveToDatabase(Participant_Condition pc)
         {
-            KinectDatabaseEntities1 ent = new KinectDatabaseEntities1();
-            foreach (RawData rawdata in raw.Local)
+            DeceptionDBEntities ent = new DeceptionDBEntities();
+            foreach (Raw_Data rawdata in raw.Local)
             {
-                rawdata.participant_condition_id = pc.participant_condition_id;
-                ent.RawDatas.Add(rawdata);
+                rawdata.pc_id = pc.pc_id;
+                ent.Raw_Data.Add(rawdata);
             }
             ent.SaveChanges();
         }

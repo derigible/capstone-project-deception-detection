@@ -12,7 +12,7 @@ namespace Kinect_D2_v1
     /// </summary>
     public partial class ExperimentWindow : Window
     {
-        KinectDatabaseEntities1 db = new KinectDatabaseEntities1();
+        DeceptionDBEntities db = new DeceptionDBEntities();
         public ExperimentWindow()
         {
             InitializeComponent();
@@ -60,9 +60,6 @@ namespace Kinect_D2_v1
                 Condition con = new Condition(ex.experiment_id);
                 con.code = this.conCode.Text;
                 con.description = this.conDescription.Text;
-                long id = db.Conditions.Count<Condition>() + 1;
-                Console.WriteLine("Id is: " +id);
-                con.condition_id = id;
                 db.Conditions.Add(con);
                 this.lstConditions.Items.Add(con);
                 db.SaveChanges();
@@ -97,7 +94,7 @@ namespace Kinect_D2_v1
 
         private void btnAddExperiment_Click(object sender, RoutedEventArgs e)
         {
-            Experiment ex = new Experiment(db.Experiments.Count<Experiment>() + 1, tbExperimentName.Text);
+            Experiment ex = new Experiment(tbExperimentName.Text);
             db.Experiments.Add(ex);
             this.lbExperimentList.Items.Add(ex);
             db.SaveChanges();

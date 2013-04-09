@@ -59,20 +59,11 @@ C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\Kinect_D2_v1_MarkupCompile.cache
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\Kinect_D2_v1_MarkupCompile.lref
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\App.config
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\KinectDatabase.sdf
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Condition.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Experiment.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Feature.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Participant.cs
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Participant_condition.cs
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\RawData.cs
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\KinectEntities.Context.cs
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\KinectEntities.cs
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\KinectEntities.Designer.cs
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Tag.cs
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\KinectEntities.Context.tt
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\KinectEntities.edmx.diagram
-C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\KinectEntities.tt
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Kinect_D2_v1.exe.config
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Kinect_D2_v1.exe
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\Kinect_D2_v1.pdb
@@ -96,3 +87,4 @@ C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\Kinect_D2_v1.csproj.GenerateResource.Cache
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\Kinect_D2_v1.exe
 C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\obj\Debug\Kinect_D2_v1.pdb
+C:\Users\Marc\Documents\Visual Studio 2012\pmarca-kinect\kinect-deception\Kinect_D2_v1\Kinect_D2_v1\bin\Debug\DeceptionDB.sdf

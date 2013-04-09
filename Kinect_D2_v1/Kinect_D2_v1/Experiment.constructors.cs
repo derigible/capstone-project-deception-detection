@@ -8,10 +8,9 @@ namespace Kinect_D2_v1
 {
     partial class Experiment
     {
-        public Experiment(long id, string name)
+        public Experiment(string name)
         {
             this.name = name;
-            this.experiment_id = id;
         }
 
         public override string ToString()

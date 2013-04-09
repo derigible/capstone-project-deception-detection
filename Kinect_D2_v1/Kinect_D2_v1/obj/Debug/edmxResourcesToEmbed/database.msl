@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DeceptionDBModelStoreContainer" CdmEntityContainer="DeceptionDBEntities">
+    <EntitySetMapping Name="Conditions">
+      <EntityTypeMapping TypeName="DeceptionDBModel.Condition">
+        <MappingFragment StoreEntitySet="Condition">
+          <ScalarProperty Name="condition_id" ColumnName="condition_id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="experiment_id" ColumnName="experiment_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Experiments">
+      <EntityTypeMapping TypeName="DeceptionDBModel.Experiment">
+        <MappingFragment StoreEntitySet="Experiment">
+          <ScalarProperty Name="experiment_id" ColumnName="experiment_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Features">
+      <EntityTypeMapping TypeName="DeceptionDBModel.Feature">
+        <MappingFragment StoreEntitySet="Feature">
+          <ScalarProperty Name="feature_id" ColumnName="feature_id" />
+          <ScalarProperty Name="tag_id" ColumnName="tag_id" />
+          <ScalarProperty Name="start_timestamp" ColumnName="start_timestamp" />
+          <ScalarProperty Name="end_timestamp" ColumnName="end_timestamp" />
+          <ScalarProperty Name="partcipant_condition_id" ColumnName="partcipant_condition_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Participants">
+      <EntityTypeMapping TypeName="DeceptionDBModel.Participant">
+        <MappingFragment StoreEntitySet="Participant">
+          <ScalarProperty Name="participant_id" ColumnName="participant_id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="fname" ColumnName="fname" />
+          <ScalarProperty Name="lname" ColumnName="lname" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="pnum" ColumnName="pnum" />
+          <ScalarProperty Name="add_line_1" ColumnName="add_line_1" />
+          <ScalarProperty Name="add_line_2" ColumnName="add_line_2" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="zip" ColumnName="zip" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Participant_Condition">
+      <EntityTypeMapping TypeName="DeceptionDBModel.Participant_Condition">
+        <MappingFragment StoreEntitySet="Participant_Condition">
+          <ScalarProperty Name="pc_id" ColumnName="pc_id" />
+          <ScalarProperty Name="condition_id" ColumnName="condition_id" />
+          <ScalarProperty Name="participant_id" ColumnName="participant_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Raw_Data">
+      <EntityTypeMapping TypeName="DeceptionDBModel.Raw_Data">
+        <MappingFragment StoreEntitySet="Raw_Data">
+          <ScalarProperty Name="raw_data_id" ColumnName="raw_data_id" />
+          <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+          <ScalarProperty Name="pc_id" ColumnName="pc_id" />
+          <ScalarProperty Name="Head_X" ColumnName="Head_X" />
+          <ScalarProperty Name="Head_Y" ColumnName="Head_Y" />
+          <ScalarProperty Name="Head_Z" ColumnName="Head_Z" />
+          <ScalarProperty Name="ShoulderCenter_X" ColumnName="ShoulderCenter_X" />
+          <ScalarProperty Name="ShoulderCenter_Y" ColumnName="ShoulderCenter_Y" />
+          <ScalarProperty Name="ShoulderCenter_Z" ColumnName="ShoulderCenter_Z" />
+          <ScalarProperty Name="ShoulderLeft_X" ColumnName="ShoulderLeft_X" />
+          <ScalarProperty Name="ShoulderLeft_Y" ColumnName="ShoulderLeft_Y" />
+          <ScalarProperty Name="ShoulderLeft_Z" ColumnName="ShoulderLeft_Z" />
+          <ScalarProperty Name="ShoulderRight_X" ColumnName="ShoulderRight_X" />
+          <ScalarProperty Name="ShoulderRight_Y" ColumnName="ShoulderRight_Y" />
+          <ScalarProperty Name="ShoulderRight_Z" ColumnName="ShoulderRight_Z" />
+          <ScalarProperty Name="Spine_X" ColumnName="Spine_X" />
+          <ScalarProperty Name="Spine_Y" ColumnName="Spine_Y" />
+          <ScalarProperty Name="Spine_Z" ColumnName="Spine_Z" />
+          <ScalarProperty Name="HipCenter_X" ColumnName="HipCenter_X" />
+          <ScalarProperty Name="HipCenter_Y" ColumnName="HipCenter_Y" />
+          <ScalarProperty Name="HipCenter_Z" ColumnName="HipCenter_Z" />
+          <ScalarProperty Name="HipLeft_X" ColumnName="HipLeft_X" />
+          <ScalarProperty Name="HipLeft_Y" ColumnName="HipLeft_Y" />
+          <ScalarProperty Name="HipLeft_Z" ColumnName="HipLeft_Z" />
+          <ScalarProperty Name="HipRight_X" ColumnName="HipRight_X" />
+          <ScalarProperty Name="HipRight_Y" ColumnName="HipRight_Y" />
+          <ScalarProperty Name="HipRight_Z" ColumnName="HipRight_Z" />
+          <ScalarProperty Name="ElbowLeft_X" ColumnName="ElbowLeft_X" />
+          <ScalarProperty Name="ElbowLeft_Y" ColumnName="ElbowLeft_Y" />
+          <ScalarProperty Name="ElbowLeft_Z" ColumnName="ElbowLeft_Z" />
+          <ScalarProperty Name="ElbowRight_X" ColumnName="ElbowRight_X" />
+          <ScalarProperty Name="ElbowRight_Y" ColumnName="ElbowRight_Y" />
+          <ScalarProperty Name="ElbowRight_Z" ColumnName="ElbowRight_Z" />
+          <ScalarProperty Name="WristLeft_X" ColumnName="WristLeft_X" />
+          <ScalarProperty Name="WristLeft_Y" ColumnName="WristLeft_Y" />
+          <ScalarProperty Name="WristLeft_Z" ColumnName="WristLeft_Z" />
+          <ScalarProperty Name="WristRight_X" ColumnName="WristRight_X" />
+          <ScalarProperty Name="WristRight_Y" ColumnName="WristRight_Y" />
+          <ScalarProperty Name="WristRight_Z" ColumnName="WristRight_Z" />
+          <ScalarProperty Name="HandLeft_X" ColumnName="HandLeft_X" />
+          <ScalarProperty Name="HandLeft_Y" ColumnName="HandLeft_Y" />
+          <ScalarProperty Name="HandLeft_Z" ColumnName="HandLeft_Z" />
+          <ScalarProperty Name="HandRight_X" ColumnName="HandRight_X" />
+          <ScalarProperty Name="HandRight_Y" ColumnName="HandRight_Y" />
+          <ScalarProperty Name="HandRight_Z" ColumnName="HandRight_Z" />
+          <ScalarProperty Name="KneeLeft_X" ColumnName="KneeLeft_X" />
+          <ScalarProperty Name="KneeLeft_Y" ColumnName="KneeLeft_Y" />
+          <ScalarProperty Name="KneeLeft_Z" ColumnName="KneeLeft_Z" />
+          <ScalarProperty Name="KneeRight_X" ColumnName="KneeRight_X" />
+          <ScalarProperty Name="KneeRight_Y" ColumnName="KneeRight_Y" />
+          <ScalarProperty Name="KneeRight_Z" ColumnName="KneeRight_Z" />
+          <ScalarProperty Name="AnkleLeft_X" ColumnName="AnkleLeft_X" />
+          <ScalarProperty Name="AnkleLeft_Y" ColumnName="AnkleLeft_Y" />
+          <ScalarProperty Name="AnkleLeft_Z" ColumnName="AnkleLeft_Z" />
+          <ScalarProperty Name="AnkleRight_X" ColumnName="AnkleRight_X" />
+          <ScalarProperty Name="AnkleRight_Y" ColumnName="AnkleRight_Y" />
+          <ScalarProperty Name="AnkleRight_Z" ColumnName="AnkleRight_Z" />
+          <ScalarProperty Name="FootRight_X" ColumnName="FootRight_X" />
+          <ScalarProperty Name="FootRight_Y" ColumnName="FootRight_Y" />
+          <ScalarProperty Name="FootRight_Z" ColumnName="FootRight_Z" />
+          <ScalarProperty Name="FootLeft_X" ColumnName="FootLeft_X" />
+          <ScalarProperty Name="FootLeft_Y" ColumnName="FootLeft_Y" />
+          <ScalarProperty Name="FootLeft_Z" ColumnName="FootLeft_Z" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="DeceptionDBModel.Tag">
+        <MappingFragment StoreEntitySet="Tag">
+          <ScalarProperty Name="tag_id" ColumnName="tag_id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

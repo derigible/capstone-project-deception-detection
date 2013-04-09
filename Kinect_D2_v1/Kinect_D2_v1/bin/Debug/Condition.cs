@@ -16,15 +16,15 @@ namespace Kinect_D2_v1
     {
         public Condition()
         {
-            this.Participant_condition = new HashSet<Participant_condition>();
+            this.Participant_Condition = new HashSet<Participant_Condition>();
         }
     
         public long condition_id { get; set; }
         public string code { get; set; }
         public string description { get; set; }
-        public long experiment_id { get; set; }
+        public Nullable<long> experiment_id { get; set; }
     
         public virtual Experiment Experiment { get; set; }
-        public virtual ICollection<Participant_condition> Participant_condition { get; set; }
+        public virtual ICollection<Participant_Condition> Participant_Condition { get; set; }
     }
 }

@@ -7,9 +7,9 @@ using Microsoft.Kinect;
 
 namespace Kinect_D2_v1
 {
-    public partial class RawData
+    public partial class Raw_Data
     {
-        public RawData()
+        public Raw_Data()
         {
         }
 

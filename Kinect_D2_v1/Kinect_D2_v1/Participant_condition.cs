@@ -12,21 +12,21 @@ namespace Kinect_D2_v1
     using System;
     using System.Collections.Generic;
     
-    public partial class Participant_condition
+    public partial class Participant_Condition
     {
-        public Participant_condition()
+        public Participant_Condition()
         {
-            this.RawDatas = new HashSet<RawData>();
             this.Features = new HashSet<Feature>();
+            this.Raw_Data = new HashSet<Raw_Data>();
         }
     
-        public long participant_condition_id { get; set; }
+        public long pc_id { get; set; }
         public long condition_id { get; set; }
         public long participant_id { get; set; }
     
         public virtual Condition Condition { get; set; }
-        public virtual Participant Participant { get; set; }
-        public virtual ICollection<RawData> RawDatas { get; set; }
         public virtual ICollection<Feature> Features { get; set; }
+        public virtual Participant Participant { get; set; }
+        public virtual ICollection<Raw_Data> Raw_Data { get; set; }
     }
 }

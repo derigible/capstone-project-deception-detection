@@ -23,7 +23,7 @@ namespace Kinect_D2_v1
     /// </summary>
     public partial class ExportWindow : Window
     {
-        private KinectDatabaseEntities1 db = new KinectDatabaseEntities1();
+        private DeceptionDBEntities db = new DeceptionDBEntities();
         private String[] headers = { "ID", "timestamp ", "Head_X ", "Head_Y ", "Head_Z ", 
                                        "ShoulderCenter_X ", "ShoulderCenter_Y ", "ShoulderCenter_Z ", 
                                        "ShoulderLeft_X ", "ShoulderLeft_Y ", "ShoulderLeft_Z ", "ShoulderRight_X ", 
@@ -58,10 +58,10 @@ namespace Kinect_D2_v1
         public void keepSelected(Participant p, ExcelWorksheet worksheet)
         {
             var list = this.data_selection_list.SelectedItems;
-            List<RawData> data_points = (List<RawData>)db.RawDatas
-                .Where<RawData>(r => r.Participant_condition.participant_id == p.participant_id);
+            List<Raw_Data> data_points = (List<Raw_Data>)db.Raw_Data
+                .Where<Raw_Data>(r => r.Participant_Condition.participant_id == p.participant_id);
             int i = 1;
-            foreach( RawData data in data_points)
+            foreach( Raw_Data data in data_points)
             {
                 int j = 1;
 
@@ -74,7 +74,7 @@ namespace Kinect_D2_v1
                     }
                     else
                     {
-                        worksheet.Cells[i, j].Value = data.ID;
+                        worksheet.Cells[i, j].Value = data.raw_data_id;
                         j++;
                     }
                 }

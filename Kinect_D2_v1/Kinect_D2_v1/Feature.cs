@@ -18,9 +18,9 @@ namespace Kinect_D2_v1
         public Nullable<long> tag_id { get; set; }
         public Nullable<System.DateTime> start_timestamp { get; set; }
         public Nullable<System.DateTime> end_timestamp { get; set; }
-        public Nullable<long> participant_condition_id { get; set; }
+        public Nullable<long> partcipant_condition_id { get; set; }
     
+        public virtual Participant_Condition Participant_Condition { get; set; }
         public virtual Tag Tag { get; set; }
-        public virtual Participant_condition Participant_condition { get; set; }
     }
 }

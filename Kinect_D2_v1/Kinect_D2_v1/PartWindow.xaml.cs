@@ -64,8 +64,8 @@ namespace Kinect_D2_v1
         {
             Participant p = new Participant(this.txtCode.Text,
                 this.txtFirstName.Text, this.txtLastName.Text);
-            this.addPInfo(p);
             db.Participants.Add(p);
+            this.addPInfo(p);
             this.lstParticipants.Items.Add(p);
             db.SaveChanges();
         }
@@ -116,10 +116,12 @@ namespace Kinect_D2_v1
             if (!this.conditionName.Items.IsEmpty)
             {
                 Condition c = (Condition)this.conditionName.SelectedItem;
-                db.Participant_Condition.Add(new Participant_Condition(p.participant_id,
-                    c.condition_id));
+                if (c != null)
+                {
+                    db.Participant_Condition.Add(new Participant_Condition(p.participant_id,
+                        c.condition_id));
+                }
             }
-            db.SaveChanges();
         }
 
         private void update_Click(object sender, RoutedEventArgs e)

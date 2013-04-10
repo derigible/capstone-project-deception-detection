@@ -105,5 +105,11 @@ namespace Kinect_D2_v1
             ExportWindow export = new ExportWindow((Experiment)lbExperimentList.SelectedItem);
             export.Show();
         }
+
+        private void addTag_Click(object sender, RoutedEventArgs e)
+        {
+            TagsWindow tagme = new TagsWindow();
+            tagme.Show();
+        }
     }
 }

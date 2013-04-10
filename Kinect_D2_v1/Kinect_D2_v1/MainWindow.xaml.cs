@@ -111,6 +111,8 @@ namespace Kinect_D2_v1
                 typeof(KinectSensorManager),
                 typeof(MainWindow),
                 new PropertyMetadata(null));
+
+        DeceptionDBEntities db = new DeceptionDBEntities();
         #endregion variable declarations
 
         #region Window Managament
@@ -139,6 +141,11 @@ namespace Kinect_D2_v1
             this.DataContext = this.viewModel;
 
             InitializeComponent();
+
+            foreach (Tag t in db.Tags)
+            {
+                this.lstTags.Items.Add(t);
+            }
 
             this.SensorChooserUI.KinectSensorChooser = sensorChooser;
         }
@@ -202,11 +209,11 @@ namespace Kinect_D2_v1
         private void InitializeKinectServices(KinectSensorManager kinectSensorManager, KinectSensor sensor)
         {
             // Application should enable all streams first.
-            kinectSensorManager.ColorFormat = ColorImageFormat.RgbResolution640x480Fps30;
-            kinectSensorManager.ColorStreamEnabled = true;
+            //kinectSensorManager.ColorFormat = ColorImageFormat.RgbResolution640x480Fps30;
+            //kinectSensorManager.ColorStreamEnabled = true;
 
             sensor.SkeletonFrameReady += this.SkeletonsReady;
-            sensor.ColorFrameReady += this.ColorStreamReady;
+            //sensor.ColorFrameReady += this.ColorStreamReady;
             kinectSensorManager.TransformSmoothParameters = new TransformSmoothParameters
             {
                 Smoothing = 0.5f,
@@ -217,7 +224,8 @@ namespace Kinect_D2_v1
             };
             kinectSensorManager.SkeletonStreamEnabled = true;
             kinectSensorManager.KinectSensorEnabled = true;
-
+            this.sensorChooser.Kinect.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+            this.checkBoxSeatedMode.IsChecked = true;
         }
 
         // Kinect enabled apps should uninitialize all Kinect services that were initialized in InitializeKinectServices() here.
@@ -516,7 +524,6 @@ namespace Kinect_D2_v1
                 var uriSource = new Uri(@"/Kinect_D2_v1;component/Images/stop.png", UriKind.Relative);
                 this.imgStartStop.Source = new BitmapImage(uriSource);
                 clicked = true;
-
             }
             else
             {
@@ -570,11 +577,70 @@ namespace Kinect_D2_v1
             }
             this.statusBarText.Text = Properties.Resources.KinectFound;
         }
+
+        private void btnTag_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                lstTagLog.Items.Insert(0, lstTags.SelectedValue.ToString() + '-' + DateTime.Now.ToString());
+            }
+            catch (System.Exception)
+            {
+                //Nothing is selected, ignore the button
+            }
+        }
+
+        private void btnRemoveTag_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                lstTagLog.Items.RemoveAt(lstTagLog.SelectedIndex);
+            }
+
+            catch (System.Exception)
+            {
+                //Nothing is selected, ignore the button
+            }
+
+        }
+
+        private void lstTags_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                lstTagLog.Items.Insert(0, lstTags.SelectedValue.ToString() + '-' + DateTime.Now.ToString());
+            }
+
+            catch (System.Exception)
+            {
+                //Nothing is selected, ignore the button
+            }
+
+        }
         #endregion button actions
 
         private void openReplay(object sender, RoutedEventArgs e)
         {
             helpMe.writeVideoReplay("test.avi");
+        }
+
+        private void checkBoxSeatedMode_Checked(object sender, RoutedEventArgs e)
+        {
+            this.CheckBoxSeatedModeChanged(sender, e);
+        }
+
+        private void recordVideoBool_Checked(object sender, RoutedEventArgs e)
+        {
+            if (helpMe.recordVideo)
+            {
+                helpMe.recordVideo = false;
+            }
+            else
+            {
+                helpMe.recordVideo = true;
+            }
         }
     }
 }

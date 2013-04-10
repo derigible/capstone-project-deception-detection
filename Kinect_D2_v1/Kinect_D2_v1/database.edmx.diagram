@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bf4fa91475ad4c83998655108f14b4ee" Name="Diagram1" ZoomLevel="55">
+      <Diagram DiagramId="bf4fa91475ad4c83998655108f14b4ee" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="DeceptionDBModel.Condition" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Experiment" Width="1.5" PointX="0.875" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Feature" Width="1.5" PointX="5" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DeceptionDBModel.Participant" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeceptionDBModel.Participant" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Participant_Condition" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Raw_Data" Width="1.5" PointX="7.625" PointY="8.625" IsExpanded="false" />
         <EntityTypeShape EntityType="DeceptionDBModel.Tag" Width="1.5" PointX="1.875" PointY="11.75" IsExpanded="true" />

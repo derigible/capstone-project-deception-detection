@@ -96,27 +96,30 @@
     <Compile Include="Condition.constrcutors.cs" />
     <Compile Include="Condition.cs">
       <DependentUpon>database.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="database.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>database.Context.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="database.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>database.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="database.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>database.edmx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Experiment.constructors.cs" />
     <Compile Include="Experiment.cs">
       <DependentUpon>database.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="ExperimentWindow.xaml.cs" />
     <Compile Include="ExportWindow.xaml.cs">
@@ -124,17 +127,18 @@
     </Compile>
     <Compile Include="Feature.cs">
       <DependentUpon>database.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="KinectHelper.cs" />
     <Compile Include="Participant.cs">
       <DependentUpon>database.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Participant.modifier.cs" />
     <Compile Include="Participant_condition.constructors.cs" />
     <Compile Include="Participant_Condition.cs">
       <DependentUpon>database.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="PartWindow.xaml.cs">
       <DependentUpon>PartWindow.xaml</DependentUpon>
@@ -142,10 +146,12 @@
     <Compile Include="RawData.constructors.cs" />
     <Compile Include="Raw_Data.cs">
       <DependentUpon>database.tt</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Tag.constructor.cs" />
     <Compile Include="Tag.cs">
       <DependentUpon>database.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="TagsWindow.xaml.cs" />
     <Compile Include="WriteAvi.cs" />
@@ -199,19 +205,23 @@
     <EntityDeploy Include="database.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>database.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EntityDeploy>
     <None Include="database.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>database.edmx</DependentUpon>
       <LastGenOutput>database.Context.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="database.edmx.diagram">
       <DependentUpon>database.edmx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="database.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>database.edmx</DependentUpon>
       <LastGenOutput>database.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\KinectDatabaseEntities1.datasource" />

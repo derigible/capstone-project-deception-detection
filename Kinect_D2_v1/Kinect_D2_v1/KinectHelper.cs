@@ -14,26 +14,31 @@ namespace Kinect_D2_v1
     {
         DbSet<Raw_Data> raw;
         private List<System.Drawing.Bitmap> bitmaps = new List<System.Drawing.Bitmap>();
+        public bool recordVideo { get; set; }
 
         public void addColorStream(ColorImageFrame colorFrame)
         {
-            if (colorFrame != null)
+            if(recordVideo)
             {
-                byte[] bytes = new byte[colorFrame.PixelDataLength];
-                colorFrame.CopyPixelDataTo(bytes);
+                if (colorFrame != null)
+                {
+                    byte[] bytes = new byte[colorFrame.PixelDataLength];
+                    colorFrame.CopyPixelDataTo(bytes);
 
-                System.Drawing.Bitmap bmap = new System.Drawing.Bitmap(colorFrame.Width, colorFrame.Height,
-                System.Drawing.Imaging.PixelFormat.Format32bppRgb);
-                BitmapData bmapdata = bmap.LockBits(
-                    new System.Drawing.Rectangle(0, 0, colorFrame.Width, colorFrame.Height),
-                    ImageLockMode.WriteOnly,
-                    bmap.PixelFormat);
-                IntPtr ptr = bmapdata.Scan0;
-                Marshal.Copy(bytes, 0, ptr, colorFrame.PixelDataLength);
-                bmap.UnlockBits(bmapdata);
-                bitmaps.Add(bmap);
+                    System.Drawing.Bitmap bmap = new System.Drawing.Bitmap(colorFrame.Width, colorFrame.Height,
+                    System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                    BitmapData bmapdata = bmap.LockBits(
+                        new System.Drawing.Rectangle(0, 0, colorFrame.Width, colorFrame.Height),
+                        ImageLockMode.WriteOnly,
+                        bmap.PixelFormat);
+                    IntPtr ptr = bmapdata.Scan0;
+                    Marshal.Copy(bytes, 0, ptr, colorFrame.PixelDataLength);
+                    bmap.UnlockBits(bmapdata);
+                    bitmaps.Add(bmap);
+                }
             }
         }
+
 
         public void saveSkeletonToRaw(Skeleton[] skeletons)
         {

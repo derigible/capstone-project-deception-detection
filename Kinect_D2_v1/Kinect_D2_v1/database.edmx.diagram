@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="DeceptionDBModel.Feature" Width="1.5" PointX="5" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Participant" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Participant_Condition" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DeceptionDBModel.Raw_Data" Width="1.5" PointX="7.625" PointY="8.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="DeceptionDBModel.Raw_Data" Width="1.5" PointX="7.625" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Tag" Width="1.5" PointX="1.875" PointY="11.75" IsExpanded="true" />
         <AssociationConnector Association="DeceptionDBModel.experiment_condition" ManuallyRouted="false" />
         <AssociationConnector Association="DeceptionDBModel.pc___condition" ManuallyRouted="false" />

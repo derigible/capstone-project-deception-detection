@@ -61,56 +61,6 @@ namespace Kinect_D2_v1.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] avcodec_53 {
-            get {
-                object obj = ResourceManager.GetObject("avcodec_53", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] avdevice_53 {
-            get {
-                object obj = ResourceManager.GetObject("avdevice_53", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] avfilter_2 {
-            get {
-                object obj = ResourceManager.GetObject("avfilter_2", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] avformat_53 {
-            get {
-                object obj = ResourceManager.GetObject("avformat_53", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] avutil_51 {
-            get {
-                object obj = ResourceManager.GetObject("avutil_51", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Kinect Found.
         /// </summary>
         internal static string KinectFound {
@@ -172,16 +122,6 @@ namespace Kinect_D2_v1.Properties {
             get {
                 object obj = ResourceManager.GetObject("stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] swscale_2 {
-            get {
-                object obj = ResourceManager.GetObject("swscale_2", resourceCulture);
-                return ((byte[])(obj));
             }
         }
     }

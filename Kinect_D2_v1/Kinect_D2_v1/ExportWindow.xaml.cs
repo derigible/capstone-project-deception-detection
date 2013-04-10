@@ -24,26 +24,30 @@ namespace Kinect_D2_v1
     public partial class ExportWindow : Window
     {
         private DeceptionDBEntities db = new DeceptionDBEntities();
-        private String[] headers = { "ID", "timestamp ", "Head_X ", "Head_Y ", "Head_Z ", 
-                                       "ShoulderCenter_X ", "ShoulderCenter_Y ", "ShoulderCenter_Z ", 
-                                       "ShoulderLeft_X ", "ShoulderLeft_Y ", "ShoulderLeft_Z ", "ShoulderRight_X ", 
-                                       "ShoulderRight_Y ", "ShoulderRight_Z ", "Spine_X ", "Spine_Y ", "Spine_Z ",
-                                       "HipCenter_X ", "HipCenter_Y ", "HipCenter_Z ", "HipLeft_X ", "HipLeft_Y ", 
-                                       "HipLeft_Z ", "HipRight_X ", "HipRight_Y ", "HipRight_Z ", "ElbowLeft_X ", 
-                                       "ElbowLeft_Y ", "ElbowLeft_Z ", "WristLeft_X ", "WristLeft_Y ", "WristLeft_Z ", 
-                                       "HandLeft_X ", "HandLeft_Y ", "HandLeft_Z ", "ElbowRight_X ", "ElbowRight_Y ", 
-                                       "ElbowRight_Z ", "WristRight_X ", "WristRight_Y ", "WristRight_Z ", "HandRight_X ", 
-                                       "HandRight_Y ", "HandRight_Z ", "KneeLeft_X ", "KneeLeft_Y ", "KneeLeft_Z ", 
-                                       "AnkleLeft_X ", "AnkleLeft_Y ", "AnkleLeft_Z ", "FootLeft_X ", "FootLeft_Y ", 
-                                       "FootLeft_Z ", "KneeRight_X ", "KneeRight_Y ", "KneeRight_Z ", "AnkleRight_X ",
-                                       "AnkleRight_Y ", "AnkleRight_Z ", "FootRight_X ", "FootRight_Y ", "FootRight_Z "};
+        private String[] headers = { "raw_data_id", "timestamp", "Head_X", "Head_Y", "Head_Z", 
+                                       "ShoulderCenter_X", "ShoulderCenter_Y", "ShoulderCenter_Z", 
+                                       "ShoulderLeft_X", "ShoulderLeft_Y", "ShoulderLeft_Z", "ShoulderRight_X", 
+                                       "ShoulderRight_Y", "ShoulderRight_Z", "Spine_X", "Spine_Y", "Spine_Z",
+                                       "HipCenter_X", "HipCenter_Y", "HipCenter_Z", "HipLeft_X", "HipLeft_Y", 
+                                       "HipLeft_Z", "HipRight_X", "HipRight_Y", "HipRight_Z", "ElbowLeft_X", 
+                                       "ElbowLeft_Y", "ElbowLeft_Z", "WristLeft_X", "WristLeft_Y", "WristLeft_Z", 
+                                       "HandLeft_X", "HandLeft_Y", "HandLeft_Z", "ElbowRight_X", "ElbowRight_Y", 
+                                       "ElbowRight_Z", "WristRight_X", "WristRight_Y", "WristRight_Z", "HandRight_X", 
+                                       "HandRight_Y", "HandRight_Z", "KneeLeft_X", "KneeLeft_Y", "KneeLeft_Z", 
+                                       "AnkleLeft_X", "AnkleLeft_Y", "AnkleLeft_Z", "FootLeft_X", "FootLeft_Y", 
+                                       "FootLeft_Z", "KneeRight_X", "KneeRight_Y", "KneeRight_Z", "AnkleRight_X",
+                                       "AnkleRight_Y", "AnkleRight_Z", "FootRight_X", "FootRight_Y", "FootRight_Z"};
 
+        private Experiment ex;
         public ExportWindow(Experiment ex)
         {
+            this.ex = ex;
             InitializeComponent();
+            this.participants_list.SelectedIndex = 0;
 
-
-            //List<Participant_condition> pclist = db.Participant_condition.Where(r => r.condition_id == 
+            // This does not return the list of participants in the experiment, but rather it just
+            // returns all participants in the database. future work should be to determine only those
+            //participants in the experiment show up
             foreach (Participant p in db.Participants)
             {
                 this.participants_list.Items.Add(p);
@@ -58,18 +62,25 @@ namespace Kinect_D2_v1
         public void keepSelected(Participant p, ExcelWorksheet worksheet)
         {
             var list = this.data_selection_list.SelectedItems;
-            List<Raw_Data> data_points = (List<Raw_Data>)db.Raw_Data
-                .Where<Raw_Data>(r => r.Participant_Condition.participant_id == p.participant_id);
+            long tempID = p.Participant_Condition.First().pc_id;
+            MessageBox.Show("PC ID is "+tempID);
+            List<Raw_Data> data_points = db.Raw_Data
+                .Where<Raw_Data>(r => r.pc_id == tempID).ToList();
+            MessageBox.Show("data points size is is " + data_points.Count);
             int i = 1;
+            foreach (String s in list)
+            {
+                Console.WriteLine(s);
+            }
             foreach( Raw_Data data in data_points)
             {
                 int j = 1;
 
-                if (list.Contains("ID"))
+                if (list.Contains("raw_data_id"))
                 {
                     if (i == 1)
                     {
-                        worksheet.Cells[i, j].Value = "ID";
+                        worksheet.Cells[i, j].Value = "raw_data_id";
                         j++;
                     }
                     else
@@ -877,44 +888,62 @@ namespace Kinect_D2_v1
 
         private void export(object sender, RoutedEventArgs e)
         {
-            // Configure save file dialog box
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "Coordinates"; // Default file name
-            dlg.DefaultExt = ".xlsx"; // Default file extension
-            dlg.Filter = "Excel Worksheets (*.xlsx)|*.xlsx"; // Filter files by extension
-            // Show save file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Process save file dialog box results
-            string filename = "";
-
-            if (result == true)
+            var temp = this.participants_list.SelectedItems;
+            if (temp != null)
             {
-                // Save document
-                filename = dlg.FileName;
-                FileInfo newFile = new FileInfo(filename);
-                if (newFile.Exists)
+                if (this.data_selection_list.SelectedItems.Count != 0)
                 {
-                    newFile.Delete();  // ensures we create a new workbook
-                    newFile = new FileInfo(filename);
+                    // Configure save file dialog box
+                    Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                    dlg.FileName = "Raw_data_" + ex.name; // Default file name
+                    dlg.DefaultExt = ".xlsx"; // Default file extension
+                    dlg.Filter = "Excel Worksheets (*.xlsx)|*.xlsx"; // Filter files by extension
+                    // Show save file dialog box
+                    Nullable<bool> result = dlg.ShowDialog();
+
+                    // Process save file dialog box results
+                    string filename = "";
+
+                    if (result == true)
+                    {
+                        // Save document
+                        filename = dlg.FileName;
+                        FileInfo newFile = new FileInfo(filename);
+                        if (newFile.Exists)
+                        {
+                            newFile.Delete();  // ensures we create a new workbook
+                            newFile = new FileInfo(filename);
+                        }
+
+                        ExcelPackage package = new ExcelPackage(newFile);
+
+                        foreach (Participant p in temp)
+                        {
+                            Console.WriteLine(p);
+                            this.keepSelected(p, package.Workbook.Worksheets.Add(p.lname + "_" + p.fname));
+                        }
+
+                        // set some document properties
+                        package.Workbook.Properties.Title = "Raw_Data";
+                        package.Workbook.Properties.Author = "Experimenter";
+                        package.Workbook.Properties.Comments = "Raw_Data";
+
+                        // set some extended property values
+                        package.Workbook.Properties.Company = "BYU";
+
+                        // save our new workbook and we are done!
+                        package.Save();
+                    }
                 }
-
-                ExcelPackage package = new ExcelPackage(newFile);
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Coordinates");
-
-                this.keepSelected((Participant) this.participants_list.SelectedItem, worksheet);
-
-                // set some document properties
-                package.Workbook.Properties.Title = "Coordinates";
-                package.Workbook.Properties.Author = "Jonthan Urie";
-                package.Workbook.Properties.Comments = "Coordinate";
-
-                // set some extended property values
-                package.Workbook.Properties.Company = "BYU";
-
-                // save our new workbook and we are done!
-                package.Save();
-            } 
+                else
+                {
+                    MessageBox.Show("You must select at least one data point.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("You must select a participant.");
+            }
         }
     }
 }

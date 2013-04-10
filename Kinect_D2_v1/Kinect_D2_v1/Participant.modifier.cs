@@ -18,7 +18,7 @@ namespace Kinect_D2_v1
 
         override public string ToString()
         {
-            return this.fname + " " + this.lname + participant_id;
+            return this.fname + " " + this.lname;
         }
     }
 }

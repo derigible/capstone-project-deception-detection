@@ -48,9 +48,9 @@ namespace Kinect_D2_v1
         private void btnCapture_Click(object sender, RoutedEventArgs e)
         {
             Participant p = (Participant) this.lstParticipants.SelectedItem;
-            MainWindow captureScreen = new MainWindow(p.Participant_Condition.First());
+            MainWindow captureScreen = new MainWindow(p.Participant_Condition.First(), this);
             captureScreen.Show();
-            Close();
+            Hide();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

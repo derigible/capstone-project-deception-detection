@@ -105,6 +105,8 @@ namespace Kinect_D2_v1
 
         private Participant_Condition pc;
 
+        private PartWindow part_window;
+
         public static readonly DependencyProperty KinectSensorManagerProperty =
             DependencyProperty.Register(
                 "KinectSensorManager",
@@ -119,9 +121,9 @@ namespace Kinect_D2_v1
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
-        public MainWindow(Participant_Condition pc)
+        public MainWindow(Participant_Condition pc, PartWindow p)
         {
-
+            this.part_window = p;
             this.pc = pc;
             this.KinectSensorManager = new KinectSensorManager();
             this.KinectSensorManager.KinectSensorChanged += this.KinectSensorChanged;
@@ -536,12 +538,15 @@ namespace Kinect_D2_v1
 
         private void startRecording()
         {
+            this.popuptxt.Content = "Starting the Kinect.";
+            this.waitScreen.IsOpen = true;
             sensorChooser.Start();
 
             // Bind the KinectSensor from the sensorChooser to the KinectSensor on the KinectSensorManager
             var kinectSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
             BindingOperations.SetBinding(this.KinectSensorManager, KinectSensorManager.KinectSensorProperty, kinectSensorBinding);
 
+            this.popuptxt.Content = "Creating the Database.";
             //Create an entity version
             helpMe.createDatabase();
 
@@ -553,22 +558,26 @@ namespace Kinect_D2_v1
             {
                 this.statusBarText.Text = Properties.Resources.KinectRecording;
             }
+
+            this.waitScreen.IsOpen = false;
         }
 
         private void stopRecording()
         {
             if (null != this.sensorChooser.Kinect)
             {
+                this.waitScreen.IsOpen = true;
                 //stop the recording
-
+                this.popuptxt.Content = "Stopping the Kinect.";
                 this.sensorChooser.Stop();
 
-                MessageBox.Show("Sensor Stopped");
+                this.popuptxt.Content = "Saving to the database. Please wait...";
 
                 this.statusBarText.Text = Properties.Resources.KinectOutPutToDatabase;
 
                 helpMe.saveToDatabase(pc);
 
+                this.waitScreen.IsOpen = false;
                 MessageBox.Show("Records saved to database");
             }
             else
@@ -618,6 +627,12 @@ namespace Kinect_D2_v1
                 //Nothing is selected, ignore the button
             }
 
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            part_window.Show();
+            Close();
         }
         #endregion button actions
 

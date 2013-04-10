@@ -18,8 +18,8 @@
         <Label Content="Participant Selection" Margin="10,10,10,0" Height="35" VerticalAlignment="Top"/>
         <Label Content="Data Point Selection" Grid.Column="1" Margin="10,10,10,0" Height="35" VerticalAlignment="Top"/>
         <Label Content="Export Decision" Grid.Column="2" Margin="10,10,10,0" VerticalAlignment="Top" Height="35"/>
-        <ListBox x:Name="participants_list" Margin="10,10,0,-67" Grid.Row="1" HorizontalAlignment="Left" Width="178"/>
-        <ListBox x:Name="data_selection_list" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,-67" Grid.Row="1" Width="176"/>
+        <ListBox x:Name="participants_list" Margin="10,10,0,-67" Grid.Row="1" HorizontalAlignment="Left" Width="178" SelectionMode="Extended"/>
+        <ListBox x:Name="data_selection_list" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,-67" Grid.Row="1" Width="176" SelectionMode="Extended"/>
         <Button x:Name="export_button" Content="Export" Grid.Column="2" HorizontalAlignment="Left" Margin="32,117,0,0" Grid.Row="1" VerticalAlignment="Top" Width="127" Height="32" Click="export"/>
     </Grid>
 </Window>

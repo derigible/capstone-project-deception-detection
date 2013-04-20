@@ -47,6 +47,7 @@ namespace Kinect_D2_v1
                 SetJoint(joint);
             }
             this.timestamp = DateTime.Now;
+            Console.WriteLine(timestamp);
         }
     }
 }

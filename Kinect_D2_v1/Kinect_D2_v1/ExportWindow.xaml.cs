@@ -24,7 +24,7 @@ namespace Kinect_D2_v1
     public partial class ExportWindow : Window
     {
         private DeceptionDBEntities db = new DeceptionDBEntities();
-        private String[] headers = { "raw_data_id", "timestamp", "Head_X", "Head_Y", "Head_Z", 
+        private String[] headers = { "raw_data_id", "pc_id", "timestamp", "Head_X", "Head_Y", "Head_Z", 
                                        "ShoulderCenter_X", "ShoulderCenter_Y", "ShoulderCenter_Z", 
                                        "ShoulderLeft_X", "ShoulderLeft_Y", "ShoulderLeft_Z", "ShoulderRight_X", 
                                        "ShoulderRight_Y", "ShoulderRight_Z", "Spine_X", "Spine_Y", "Spine_Z",
@@ -86,6 +86,23 @@ namespace Kinect_D2_v1
                     else
                     {
                         worksheet.Cells[i, j].Value = data.raw_data_id;
+                        j++;
+                    }
+                }
+                //Since this export outputs all data for all experiments, this can be used to filter
+                //runs of the experiment. Make it so this is fixed in the future by listing
+                //only particpants in the experiment, than you can list the condition that they
+                //were under
+                if (list.Contains("pc_id")) 
+                {
+                    if (i == 1)
+                    {
+                        worksheet.Cells[i, j].Value = "pc_id";
+                        j++;
+                    }
+                    else
+                    {
+                        worksheet.Cells[i, j].Value = data.pc_id;
                         j++;
                     }
                 }

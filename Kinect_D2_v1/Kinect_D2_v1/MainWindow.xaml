@@ -82,9 +82,6 @@
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
-            <Popup Margin="10,10,0,13" x:Name="waitScreen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Height="200" IsOpen="false">
-                <Label x:Name="popuptxt" Content="Ho there" Margin="60,88,-27,78" RenderTransformOrigin="0.86,1.288" />
-            </Popup>
         </DockPanel>
                 <!-- The main viewer -->
                 <Grid Grid.Column="0" Grid.Row="1" Margin="10,10,0,10" HorizontalAlignment="Left" Width="509" >
@@ -117,7 +114,11 @@
                             <Rectangle Fill="#7777" Visibility="{Binding KinectSensorManager.ColorStreamEnabled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" SnapsToDevicePixels="True"/>
                         </Grid>
                     </Grid>
-                </Grid>
+            <Popup Margin="10,10,0,13" x:Name="waitScreen" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Height="200" IsOpen="False" OpacityMask="#FFF9F7F7">
+                <Label x:Name="popuptxt" Content="Ho there" Margin="24,-223,9,389" RenderTransformOrigin="0.86,1.288" />
+            </Popup>
+        </Grid>
+                
                 <!--<Viewbox Margin="10,6,5,4" Grid.Row="1">
                     <Image x:Name="Image" Height="105" Width="148"/>
                 </Viewbox>-->

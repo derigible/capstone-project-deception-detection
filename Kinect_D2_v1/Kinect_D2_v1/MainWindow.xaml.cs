@@ -350,6 +350,7 @@ namespace Kinect_D2_v1
         private void WindowClosing(object sender, CancelEventArgs e)
         {
             sensorChooser.Stop();
+            part_window.Show();
         }
 
         private void WindowClosed(object sender, EventArgs e)
@@ -540,6 +541,7 @@ namespace Kinect_D2_v1
         {
             this.popuptxt.Content = "Starting the Kinect.";
             this.waitScreen.IsOpen = true;
+    
             sensorChooser.Start();
 
             // Bind the KinectSensor from the sensorChooser to the KinectSensor on the KinectSensorManager
@@ -648,14 +650,15 @@ namespace Kinect_D2_v1
 
         private void recordVideoBool_Checked(object sender, RoutedEventArgs e)
         {
-            if (helpMe.recordVideo)
-            {
-                helpMe.recordVideo = false;
-            }
-            else
-            {
-                helpMe.recordVideo = true;
-            }
+            this.waitScreen.IsOpen = true;
+            //if (helpMe.recordVideo)
+            //{
+            //    helpMe.recordVideo = false;
+            //}
+            //else
+            //{
+            //    helpMe.recordVideo = true;
+            //}
         }
     }
 }

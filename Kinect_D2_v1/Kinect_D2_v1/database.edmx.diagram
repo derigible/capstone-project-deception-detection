@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bf4fa91475ad4c83998655108f14b4ee" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="bf4fa91475ad4c83998655108f14b4ee" Name="Diagram1" ZoomLevel="53">
         <EntityTypeShape EntityType="DeceptionDBModel.Condition" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Experiment" Width="1.5" PointX="0.875" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DeceptionDBModel.Feature" Width="1.5" PointX="5" PointY="11.625" IsExpanded="true" />
